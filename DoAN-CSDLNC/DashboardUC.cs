@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DoAN_CSDLNC
 {
-    public partial class Form1 : Form
+    public partial class DashboardUC : UserControl
     {
-        public Form1()
+        public DashboardUC()
         {
             InitializeComponent();
         }

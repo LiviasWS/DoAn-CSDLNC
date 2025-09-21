@@ -1,9 +1,4 @@
 ﻿using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DoAN_CSDLNC.Data
 {
@@ -11,8 +6,8 @@ namespace DoAN_CSDLNC.Data
     {
         private readonly IMongoDatabase _database;
         private readonly MongoClient _client;
-        private readonly string _connectionString = "";
-        private readonly string _databaseName = "";
+        private readonly string _connectionString = "mongodb://localhost:27017/";
+        private readonly string _databaseName = "QuanCafe";
 
         public DBConnection()
         {
