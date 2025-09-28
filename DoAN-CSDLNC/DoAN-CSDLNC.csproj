@@ -145,49 +145,49 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\FSaleMain.cs">
+    <Compile Include="FSaleMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\FSaleMain.Designer.cs">
+    <Compile Include="FSaleMain.Designer.cs">
       <DependentUpon>FSaleMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\FTableDetail.cs">
+    <Compile Include="FTableDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\FTableDetail.Designer.cs">
+    <Compile Include="FTableDetail.Designer.cs">
       <DependentUpon>FTableDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Customer.cs" />
-    <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\OrderItem.cs" />
-    <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\SizeManage.cs" />
-    <Compile Include="Models\Table.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="OrderItem.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="SizeManage.cs" />
+    <Compile Include="Table.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\UCOrderItem.cs">
+    <Compile Include="UCOrderItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\UCOrderItem.Designer.cs">
+    <Compile Include="UCOrderItem.Designer.cs">
       <DependentUpon>UCOrderItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\UCTable.cs">
+    <Compile Include="UCTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\UCTable.Designer.cs">
+    <Compile Include="UCTable.Designer.cs">
       <DependentUpon>UCTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\UCTableDashboard.cs">
+    <Compile Include="UCTableDashboard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\UCTableDashboard.Designer.cs">
+    <Compile Include="UCTableDashboard.Designer.cs">
       <DependentUpon>UCTableDashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="UIHelper.cs" />
-    <EmbeddedResource Include="Views\FSaleMain.resx">
+    <EmbeddedResource Include="FSaleMain.resx">
       <DependentUpon>FSaleMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\FTableDetail.resx">
+    <EmbeddedResource Include="FTableDetail.resx">
       <DependentUpon>FTableDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -199,13 +199,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Views\UCOrderItem.resx">
+    <EmbeddedResource Include="UCOrderItem.resx">
       <DependentUpon>UCOrderItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\UCTable.resx">
+    <EmbeddedResource Include="UCTable.resx">
       <DependentUpon>UCTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\UCTableDashboard.resx">
+    <EmbeddedResource Include="UCTableDashboard.resx">
       <DependentUpon>UCTableDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -222,6 +222,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
