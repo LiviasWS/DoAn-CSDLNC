@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoAN_CSDLNC.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,20 +13,17 @@ namespace DoAN_CSDLNC
 {
     public partial class UCTable : UserControl
     {
-        private string name;
-        private string status;
-        public UCTable(string name, string status)
+        private Table table;
+        public UCTable(Table table)
         {
-            this.name = name;
-            this.status = status;
+            this.table = table;
             InitializeComponent();
         }
 
         private void UCTable_Load(object sender, EventArgs e)
         {
-            lName.Text = name;
-            lStatus.Text = status;
-            switch(status)
+            lName.Text = "Table " + table.TableNumber.ToString();
+            switch(table.Status)
             {
                 case "Free":
                     lName.ForeColor = Color.LimeGreen;
@@ -46,7 +44,7 @@ namespace DoAN_CSDLNC
 
         private void UCTable_Click(object sender, EventArgs e)
         {
-            FTableDetail fTableDetail = new FTableDetail(name, status);
+            FTableDetail fTableDetail = new FTableDetail(table);
             fTableDetail.Show();
         }
     }

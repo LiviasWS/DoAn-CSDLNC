@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DoAN_CSDLNC.Models;
+using DoAN_CSDLNC.Views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,39 +15,32 @@ namespace DoAN_CSDLNC
     public partial class FTableDetail : Form
     {
         private UIHelper helper = new UIHelper();
-        private string tableName;
-        private string tableStatus;
-        public FTableDetail(string tableName, string tableStatus)
+        private Table table;
+        public FTableDetail(Table table)
         {
-            this.tableName = tableName;
-            this.tableStatus = tableStatus;
+            this.table = table;
             InitializeComponent();
         }
 
         private void FTableDetail_Load(object sender, EventArgs e)
         {
-            lName.Text = tableName;
-            switch(tableStatus)
+            lName.Text = "Table " + table.TableNumber.ToString();
+            switch(table.Status)
             {
                 case "Free":
-                    lName.ForeColor = Color.LimeGreen;
-                    pHighLight.BackColor = Color.LimeGreen;
+                    TableLoad();
                     break;
                 case "Occupied":
-                    OccupiedTableLoad();
+                    TableLoad();
                     break;
                 case "Reserved":
-                    lName.ForeColor = Color.Orange;
-                    pHighLight.BackColor = Color.Orange;
                     break;
             }
             layOutConfig();
         }
 
-        private void OccupiedTableLoad()
+        private void TableLoad()
         {
-            lName.ForeColor = Color.LightCoral;
-            pHighLight.BackColor = Color.LightCoral;
             UCOrderItem uc1 = new UCOrderItem("Tra sua", "S", 1, 30000);
             UCOrderItem uc2 = new UCOrderItem("Coffee", "S", 1, 40000);
             UCOrderItem uc3 = new UCOrderItem("Matcha", "L", 1, 50000);
@@ -64,6 +59,12 @@ namespace DoAN_CSDLNC
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btnAddOrder_Click(object sender, EventArgs e)
+        {
+            FProductList fProductList = new FProductList(table);
+            fProductList.ShowDialog();
         }
     }
 }
