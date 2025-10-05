@@ -163,6 +163,7 @@
     <Compile Include="AddUser.Designer.cs">
       <DependentUpon>AddUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\NguyenLieuDAL.cs" />
     <Compile Include="DashboardUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -201,11 +202,18 @@
     <Compile Include="Manage.Designer.cs">
       <DependentUpon>Manage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\NguyenLieu.cs" />
     <Compile Include="OrderUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="OrderUC.Designer.cs">
       <DependentUpon>OrderUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductManagementForm.Designer.cs">
+      <DependentUpon>ProductManagementForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ProductUC.cs">
       <SubType>UserControl</SubType>
@@ -262,6 +270,9 @@
     <EmbeddedResource Include="OrderUC.resx">
       <DependentUpon>OrderUC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProductManagementForm.resx">
+      <DependentUpon>ProductManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProductUC.resx">
       <DependentUpon>ProductUC.cs</DependentUpon>
     </EmbeddedResource>
@@ -295,7 +306,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

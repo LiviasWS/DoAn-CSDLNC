@@ -6,8 +6,8 @@ namespace DoAN_CSDLNC.Data
     {
         private readonly IMongoDatabase _database;
         private readonly MongoClient _client;
-        private readonly string _connectionString = "mongodb://localhost:27017/";
-        private readonly string _databaseName = "QuanCafe";
+        private readonly string _connectionString = "mongodb://localhost:27017";
+        private readonly string _databaseName = "Cafe";
 
         public DBConnection()
         {
