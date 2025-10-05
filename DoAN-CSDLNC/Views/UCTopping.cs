@@ -25,6 +25,11 @@ namespace DoAN_CSDLNC.Views
             lName.Text = product.Name;
         }
 
+        public Product GetProduct()
+        {
+            return product;
+        }
+
         public int getQuantity()
         {
             return (int)nudQuantity.Value;

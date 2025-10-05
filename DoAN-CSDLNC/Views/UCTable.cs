@@ -23,6 +23,7 @@ namespace DoAN_CSDLNC
         private void UCTable_Load(object sender, EventArgs e)
         {
             lName.Text = "Table " + table.TableNumber.ToString();
+            lStatus.Text = table.Status;
             switch(table.Status)
             {
                 case "Free":

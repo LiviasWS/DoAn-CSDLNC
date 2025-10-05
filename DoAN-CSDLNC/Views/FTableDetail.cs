@@ -1,9 +1,12 @@
-﻿using DoAN_CSDLNC.Models;
+﻿using DoAN_CSDLNC.Data;
+using DoAN_CSDLNC.Models;
 using DoAN_CSDLNC.Views;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,10 +18,16 @@ namespace DoAN_CSDLNC
     public partial class FTableDetail : Form
     {
         private UIHelper helper = new UIHelper();
+        private DBConnection connection = new DBConnection();
+        private IMongoCollection<Order> Orders;
+        private IMongoCollection<OrderItem> OrderItems;
         private Table table;
+        private int totalPrice = 0;
         public FTableDetail(Table table)
         {
             this.table = table;
+            Orders = connection.GetCollection<Order>("Orders");
+            OrderItems = connection.GetCollection<OrderItem>("Order_Items");
             InitializeComponent();
         }
 
@@ -28,7 +37,7 @@ namespace DoAN_CSDLNC
             switch(table.Status)
             {
                 case "Free":
-                    TableLoad();
+                    ShowFreeMessage();
                     break;
                 case "Occupied":
                     TableLoad();
@@ -41,14 +50,35 @@ namespace DoAN_CSDLNC
 
         private void TableLoad()
         {
-            UCOrderItem uc1 = new UCOrderItem("Tra sua", "S", 1, 30000);
-            UCOrderItem uc2 = new UCOrderItem("Coffee", "S", 1, 40000);
-            UCOrderItem uc3 = new UCOrderItem("Matcha", "L", 1, 50000);
-            UCOrderItem uc4 = new UCOrderItem("Cacao", "XL", 1, 35000);
-            flpOrderList.Controls.Add(uc1);
-            flpOrderList.Controls.Add(uc2);
-            flpOrderList.Controls.Add(uc3);
-            flpOrderList.Controls.Add(uc4);
+            flpOrderList.Controls.Clear();
+            var orderFilter = Builders<Order>.Filter.And
+                (
+                    Builders<Order>.Filter.Eq(o => o.TableId, table.Id),
+                    Builders<Order>.Filter.Eq(o => o.Status, "in_progress")
+                );
+            Order order = Orders.Find(orderFilter).FirstOrDefault();
+            var filter = Builders<OrderItem>.Filter.Eq( o => o.OrderId, order.Id );
+            List<OrderItem> orderItems = OrderItems.Find(filter).ToList();
+            foreach( OrderItem item in orderItems )
+            {
+                UCOrderItem ucMainOrderItem = new UCOrderItem(item.ProductId, item.Size, item.Quantity);
+                flpOrderList.Controls.Add(ucMainOrderItem);
+                totalPrice += ucMainOrderItem.GetTotalPrice();
+                foreach(Topping topping in item.Toppings)
+                {
+                    UCOrderItem ucToppingOrderItem = new UCOrderItem(topping.Product.Id, null, topping.Quantity);
+                    flpOrderList.Controls.Add(ucToppingOrderItem);
+                    totalPrice += ucToppingOrderItem.GetTotalPrice();
+                }
+                UCOrderItemDescription ucDes = new UCOrderItemDescription(item.Description);
+                flpOrderList.Controls.Add(ucDes);
+            }    
+        }
+
+        private void ShowFreeMessage()
+        {
+            flpOrderList.Controls.Clear();
+            flpOrderList.Controls.Add(new UCOrderItemFreeTable());
         }
 
         private void layOutConfig()
@@ -65,6 +95,14 @@ namespace DoAN_CSDLNC
         {
             FProductList fProductList = new FProductList(table);
             fProductList.ShowDialog();
+            TableLoad();
+        }
+
+        private void btnPay_Click(object sender, EventArgs e)
+        {
+            FPayment fPayment = new FPayment(table, totalPrice);
+            fPayment.ShowDialog();
+            this.Close();
         }
     }
 }

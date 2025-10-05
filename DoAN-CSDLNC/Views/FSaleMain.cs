@@ -30,7 +30,9 @@ namespace DoAN_CSDLNC
 
         private void msiHome_Click(object sender, EventArgs e)
         {
-
+            pConainer.Controls.Clear();
+            UCTableDashboard uCTableDashboard = new UCTableDashboard();
+            pConainer.Controls.Add(uCTableDashboard);
         }
     }
 }

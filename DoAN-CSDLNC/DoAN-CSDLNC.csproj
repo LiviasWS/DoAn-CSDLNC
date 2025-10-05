@@ -210,11 +210,14 @@
       <DependentUpon>Manage.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
+    <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\SizeManage.cs" />
     <Compile Include="Models\Table.cs" />
+    <Compile Include="Models\Topping.cs" />
     <Compile Include="OrderUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -250,6 +253,12 @@
     <Compile Include="Views\FOrderItem.Designer.cs">
       <DependentUpon>FOrderItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\FPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FPayment.Designer.cs">
+      <DependentUpon>FPayment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\FProductList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,6 +288,18 @@
     </Compile>
     <Compile Include="Views\UCCategoryLabel.Designer.cs">
       <DependentUpon>UCCategoryLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCOrderItemDescription.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCOrderItemDescription.Designer.cs">
+      <DependentUpon>UCOrderItemDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCOrderItemFreeTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCOrderItemFreeTable.Designer.cs">
+      <DependentUpon>UCOrderItemFreeTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\UCProduct.cs">
       <SubType>UserControl</SubType>
@@ -358,6 +379,9 @@
     <EmbeddedResource Include="Views\FOrderItem.resx">
       <DependentUpon>FOrderItem.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\FPayment.resx">
+      <DependentUpon>FPayment.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\FProductList.resx">
       <DependentUpon>FProductList.cs</DependentUpon>
     </EmbeddedResource>
@@ -372,6 +396,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\UCCategoryLabel.resx">
       <DependentUpon>UCCategoryLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCOrderItemDescription.resx">
+      <DependentUpon>UCOrderItemDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCOrderItemFreeTable.resx">
+      <DependentUpon>UCOrderItemFreeTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\UCProduct.resx">
       <DependentUpon>UCProduct.cs</DependentUpon>

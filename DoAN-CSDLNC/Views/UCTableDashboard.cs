@@ -18,6 +18,7 @@ namespace DoAN_CSDLNC
         private UIHelper helper = new UIHelper();
         private DBConnection connection = new DBConnection();
         private IMongoCollection<Table> Table;
+
         public UCTableDashboard()
         {
             Table = connection.GetCollection<Table>("Tables");

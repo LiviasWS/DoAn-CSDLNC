@@ -38,12 +38,15 @@ namespace DoAN_CSDLNC.Views
                 ).ToList();
             foreach(var group in groups)
             {
-                UCCategoryLabel ucLabel = new UCCategoryLabel(group.Key);
-                flpProductList.Controls.Add(ucLabel);
-                foreach(Product product in group.Products)
+                if(group.Key != "Topping")
                 {
-                    UCProduct ucProduct = new UCProduct(product, table);
-                    flpProductList.Controls.Add(ucProduct);
+                    UCCategoryLabel ucLabel = new UCCategoryLabel(group.Key);
+                    flpProductList.Controls.Add(ucLabel);
+                    foreach (Product product in group.Products)
+                    {
+                        UCProduct ucProduct = new UCProduct(product, table);
+                        flpProductList.Controls.Add(ucProduct);
+                    }
                 }
             }
         }

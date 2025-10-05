@@ -96,6 +96,7 @@
             this.btnPay.TabIndex = 7;
             this.btnPay.Text = "Pay";
             this.btnPay.UseVisualStyleBackColor = false;
+            this.btnPay.Click += new System.EventHandler(this.btnPay_Click);
             // 
             // label1
             // 

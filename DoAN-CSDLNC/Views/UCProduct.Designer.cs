@@ -45,7 +45,7 @@
             // 
             // lName
             // 
-            this.lName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.lName.ForeColor = System.Drawing.Color.Peru;
             this.lName.Location = new System.Drawing.Point(121, 21);
             this.lName.MaximumSize = new System.Drawing.Size(200, 22);

@@ -18,19 +18,8 @@ namespace DoAN_CSDLNC.Models
         [BsonElement("table_id")]
         public string TableId { get; set; }
 
-        [BsonRepresentation(BsonType.ObjectId)]
-        [BsonElement("customer_id")]
-        public string CustomerId { get; set; }
-
-        [BsonRepresentation(BsonType.ObjectId)]
-        [BsonElement("employee_id")]
-        public string EmployeeId { get; set; }
-
         [BsonElement("status")]
         public string Status { get; set; }
-
-        [BsonElement("total_amount")]
-        public decimal TotalAmount { get; set; }
 
         [BsonElement("created_at")]
         public DateTime CreatedAt { get; set; }

@@ -38,7 +38,7 @@
             // 
             this.lTotalPrice.AutoSize = true;
             this.lTotalPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lTotalPrice.Location = new System.Drawing.Point(745, 14);
+            this.lTotalPrice.Location = new System.Drawing.Point(745, 10);
             this.lTotalPrice.Name = "lTotalPrice";
             this.lTotalPrice.Size = new System.Drawing.Size(77, 18);
             this.lTotalPrice.TabIndex = 8;
@@ -49,7 +49,7 @@
             // 
             this.lQuantity.AutoSize = true;
             this.lQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lQuantity.Location = new System.Drawing.Point(591, 14);
+            this.lQuantity.Location = new System.Drawing.Point(591, 10);
             this.lQuantity.Name = "lQuantity";
             this.lQuantity.Size = new System.Drawing.Size(62, 18);
             this.lQuantity.TabIndex = 7;
@@ -60,7 +60,7 @@
             // 
             this.lSize.AutoSize = true;
             this.lSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lSize.Location = new System.Drawing.Point(455, 14);
+            this.lSize.Location = new System.Drawing.Point(455, 10);
             this.lSize.Name = "lSize";
             this.lSize.Size = new System.Drawing.Size(37, 18);
             this.lSize.TabIndex = 6;
@@ -71,7 +71,7 @@
             // 
             this.lName.AutoSize = true;
             this.lName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lName.Location = new System.Drawing.Point(30, 14);
+            this.lName.Location = new System.Drawing.Point(30, 10);
             this.lName.Name = "lName";
             this.lName.Size = new System.Drawing.Size(48, 18);
             this.lName.TabIndex = 5;
@@ -88,7 +88,7 @@
             this.Controls.Add(this.lName);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UCOrderItem";
-            this.Size = new System.Drawing.Size(878, 47);
+            this.Size = new System.Drawing.Size(878, 41);
             this.Load += new System.EventHandler(this.UCOrderItem_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
