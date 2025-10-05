@@ -16,26 +16,65 @@ namespace DoAN_CSDLNC
             InitializeComponent();
             _db = new DBConnection();
 
+            comboBoxSearchField.Items.AddRange(new string[] { "Name", "Email", "Phone", "Role" });
+            comboBoxSearchField.SelectedIndex = 0;
+
             LoadEmployees();
         }
 
         // Load dữ liệu nhân viên từ MongoDB
-        private void LoadEmployees()
+        private void LoadEmployees(List<Employee> employees = null)
         {
             try
             {
-                // Lấy collection employees
                 var employeesCollection = _db.GetCollection<Employee>("employees");
-
-                // Lấy tất cả nhân viên
-                List<Employee> employees = employeesCollection.Find(_ => true).ToList();
-
-                // Đổ dữ liệu vào DataGridView
-                dataGridView1.DataSource = employees;
+                var data = employees ?? employeesCollection.Find(_ => true).ToList();
+                dataGridView1.DataSource = data;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi tải dữ liệu nhân viên: " + ex.Message);
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var employeesCollection = _db.GetCollection<Employee>("employees");
+                string keyword = txtSearch.Text.Trim().ToLower();
+
+                if (string.IsNullOrEmpty(keyword))
+                {
+                    LoadEmployees();
+                    return;
+                }
+
+                string field = comboBoxSearchField.SelectedItem.ToString();
+                FilterDefinition<Employee> filter = Builders<Employee>.Filter.Empty;
+
+                switch (field)
+                {
+                    case "Name":
+                        filter = Builders<Employee>.Filter.Regex(f => f.Name, new MongoDB.Bson.BsonRegularExpression(keyword, "i"));
+                        break;
+                    case "Email":
+                        filter = Builders<Employee>.Filter.Regex(f => f.Email, new MongoDB.Bson.BsonRegularExpression(keyword, "i"));
+                        break;
+                    case "Phone":
+                        filter = Builders<Employee>.Filter.Regex(f => f.Phone, new MongoDB.Bson.BsonRegularExpression(keyword, "i"));
+                        break;
+                    case "Role":
+                        filter = Builders<Employee>.Filter.Regex(f => f.Role, new MongoDB.Bson.BsonRegularExpression(keyword, "i"));
+                        break;
+                }
+
+                var employees = employeesCollection.Find(filter).ToList();
+                LoadEmployees(employees);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tìm kiếm nhân viên: " + ex.Message);
             }
         }
 
@@ -44,10 +83,15 @@ namespace DoAN_CSDLNC
         {
             // Mở form UpdateEmployee để thêm mới
             var form = new AddEmployee(); // form trống
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                LoadEmployees(); // reload lại bảng
-            }
+            //if (form.ShowDialog() == DialogResult.OK)
+            //{
+            //    LoadEmployees(); // reload lại bảng
+            //}
+
+            // Khi form thêm nhân viên báo "đã thêm", thì reload lại bảng
+            form.EmployeeAdded += (s, args) => LoadEmployees();
+
+            form.Show(); // dùng Show() để form mở song song, không cần đóng mới load
         }
 
         // Sửa nhân viên

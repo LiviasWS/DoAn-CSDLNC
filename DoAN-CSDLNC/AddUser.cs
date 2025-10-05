@@ -9,6 +9,9 @@ namespace DoAN_CSDLNC
     {
         private readonly DBConnection _db;
 
+        // Khai báo sự kiện
+        public event EventHandler UserAdded;
+
         public AddUser()
         {
             InitializeComponent();
@@ -20,6 +23,9 @@ namespace DoAN_CSDLNC
             if (SaveUser())
             {
                 MessageBox.Show("Thêm user thành công!");
+
+                UserAdded?.Invoke(this, EventArgs.Empty);
+
                 this.DialogResult = DialogResult.OK; // báo form cha reload
                 this.Close();
             }
@@ -31,11 +37,14 @@ namespace DoAN_CSDLNC
             {
                 MessageBox.Show("Thêm user thành công! Mời nhập user khác.");
 
+                UserAdded?.Invoke(this, EventArgs.Empty);
+
                 // Reset form
                 textBox1.Clear();
                 textBox2.Clear();
                 radioButton1.Checked = false;
                 radioButton2.Checked = false;
+                radioButton3.Checked = false;
                 textBox1.Focus();
             }
         }
@@ -57,7 +66,8 @@ namespace DoAN_CSDLNC
                 string username = textBox1.Text.Trim();
                 string password = textBox2.Text.Trim();
                 string role = radioButton1.Checked ? "manager" :
-                              radioButton2.Checked ? "staff" : null;
+                              radioButton2.Checked ? "sell_staff" :
+                              radioButton3.Checked ? "inventory_staff": null;
 
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || role == null)
                 {

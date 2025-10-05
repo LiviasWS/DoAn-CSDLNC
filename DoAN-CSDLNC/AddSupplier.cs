@@ -11,6 +11,9 @@ namespace DoAN_CSDLNC
     {
         private readonly IMongoCollection<Supplier> _suppliers;
 
+        // Khai báo sự kiện
+        public event EventHandler supplierAdded;
+
         public AddSupplier()
         {
             InitializeComponent();
@@ -43,6 +46,9 @@ namespace DoAN_CSDLNC
             _suppliers.InsertOne(supplier);
             MessageBox.Show("Thêm nhà cung cấp thành công!");
 
+            // Gọi sự kiện báo về UserControl
+            supplierAdded?.Invoke(this, EventArgs.Empty);
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -65,6 +71,8 @@ namespace DoAN_CSDLNC
 
             _suppliers.InsertOne(supplier);
             MessageBox.Show("Thêm nhà cung cấp thành công!");
+
+            supplierAdded?.Invoke(this, EventArgs.Empty);
 
             // Clear form để nhập mới
             txtName.Clear();

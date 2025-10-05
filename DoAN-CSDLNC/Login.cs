@@ -43,6 +43,7 @@ namespace DoAN_CSDLNC
             if (PasswordHelper.VerifyPassword(password, user.PasswordHash))
             {
                 MessageBox.Show("Đăng nhập thành công!");
+                Session.CurrentUser = user;
 
                 if (user.Role == "manager")
                 {
@@ -53,7 +54,16 @@ namespace DoAN_CSDLNC
                     // khi form Staff đóng thì thoát app
                     manageForm.FormClosed += (s, args) => Application.Exit();
                 }
-                else if (user.Role == "staff")
+                else if (user.Role == "sell_staff")
+                {
+                    StaffForm staffForm = new StaffForm();
+                    staffForm.Show();
+                    this.Hide();
+
+                    // khi form Staff đóng thì thoát app
+                    staffForm.FormClosed += (s, args) => Application.Exit();
+                }
+                else if (user.Role == "inventory_staff")
                 {
                     StaffForm staffForm = new StaffForm();
                     staffForm.Show();

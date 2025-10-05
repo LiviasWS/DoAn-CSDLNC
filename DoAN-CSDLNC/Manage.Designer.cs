@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Button button15;
+            System.Windows.Forms.Button buttonLogout;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Manage));
             this.panelSidebar = new System.Windows.Forms.Panel();
+            this.ChangePass = new System.Windows.Forms.Button();
             this.Supplier = new System.Windows.Forms.Button();
             this.InventoryRecord = new System.Windows.Forms.Button();
             this.Inventory = new System.Windows.Forms.Button();
@@ -42,25 +43,26 @@
             this.panelContent = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.btnToggle = new System.Windows.Forms.Button();
-            button15 = new System.Windows.Forms.Button();
+            buttonLogout = new System.Windows.Forms.Button();
             this.panelSidebar.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button15
+            // buttonLogout
             // 
-            button15.BackColor = System.Drawing.Color.Red;
-            button15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            button15.ForeColor = System.Drawing.Color.White;
-            button15.Location = new System.Drawing.Point(881, 12);
-            button15.Name = "button15";
-            button15.Size = new System.Drawing.Size(92, 41);
-            button15.TabIndex = 2;
-            button15.Text = "Logout";
-            button15.UseVisualStyleBackColor = false;
-            button15.Click += new System.EventHandler(this.button15_Click);
+            buttonLogout.BackColor = System.Drawing.Color.Red;
+            buttonLogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            buttonLogout.ForeColor = System.Drawing.Color.White;
+            buttonLogout.Location = new System.Drawing.Point(881, 12);
+            buttonLogout.Name = "buttonLogout";
+            buttonLogout.Size = new System.Drawing.Size(92, 41);
+            buttonLogout.TabIndex = 2;
+            buttonLogout.Text = "Logout";
+            buttonLogout.UseVisualStyleBackColor = false;
+            buttonLogout.Click += new System.EventHandler(this.buttonLogout_Click);
             // 
             // panelSidebar
             // 
+            this.panelSidebar.Controls.Add(this.ChangePass);
             this.panelSidebar.Controls.Add(this.Supplier);
             this.panelSidebar.Controls.Add(this.InventoryRecord);
             this.panelSidebar.Controls.Add(this.Inventory);
@@ -71,8 +73,22 @@
             this.panelSidebar.Controls.Add(this.Dashboard);
             this.panelSidebar.Location = new System.Drawing.Point(1, 85);
             this.panelSidebar.Name = "panelSidebar";
-            this.panelSidebar.Size = new System.Drawing.Size(144, 388);
+            this.panelSidebar.Size = new System.Drawing.Size(144, 441);
             this.panelSidebar.TabIndex = 0;
+            // 
+            // ChangePass
+            // 
+            this.ChangePass.BackColor = System.Drawing.Color.SandyBrown;
+            this.ChangePass.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ChangePass.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ChangePass.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.ChangePass.Location = new System.Drawing.Point(0, 388);
+            this.ChangePass.Name = "ChangePass";
+            this.ChangePass.Size = new System.Drawing.Size(144, 53);
+            this.ChangePass.TabIndex = 9;
+            this.ChangePass.Text = "Đổi mật khẩu";
+            this.ChangePass.UseVisualStyleBackColor = false;
+            this.ChangePass.Click += new System.EventHandler(this.ChangePass_Click);
             // 
             // Supplier
             // 
@@ -184,7 +200,7 @@
             this.Dashboard.TabIndex = 1;
             this.Dashboard.Text = "Dashboard";
             this.Dashboard.UseVisualStyleBackColor = false;
-            this.Dashboard.Click += new System.EventHandler(this.button7_Click);
+            this.Dashboard.Click += new System.EventHandler(this.Dashboard_Click);
             // 
             // panelContent
             // 
@@ -192,7 +208,7 @@
             this.panelContent.BackColor = System.Drawing.Color.SandyBrown;
             this.panelContent.Location = new System.Drawing.Point(151, 59);
             this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(822, 421);
+            this.panelContent.Size = new System.Drawing.Size(822, 467);
             this.panelContent.TabIndex = 1;
             // 
             // label1
@@ -219,10 +235,10 @@
             // 
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(977, 507);
+            this.ClientSize = new System.Drawing.Size(977, 538);
             this.Controls.Add(this.btnToggle);
             this.Controls.Add(this.label1);
-            this.Controls.Add(button15);
+            this.Controls.Add(buttonLogout);
             this.Controls.Add(this.panelContent);
             this.Controls.Add(this.panelSidebar);
             this.Name = "Manage";
@@ -255,5 +271,6 @@
         private System.Windows.Forms.Button Employee;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnToggle;
+        private System.Windows.Forms.Button ChangePass;
     }
 }

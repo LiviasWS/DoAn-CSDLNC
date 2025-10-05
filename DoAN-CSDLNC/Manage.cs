@@ -64,7 +64,7 @@ namespace DoAN_CSDLNC
             //HighlightButton((Button)sender);
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void Dashboard_Click(object sender, EventArgs e)
         {
             // Xóa control cũ trong panel (nếu có)
             panelContent.Controls.Clear();
@@ -123,7 +123,14 @@ namespace DoAN_CSDLNC
             //HighlightButton((Button)sender);
         }
 
-        private void button15_Click(object sender, EventArgs e)
+        // Đổi mật khẩu
+        private void ChangePass_Click(object sender, EventArgs e)
+        {
+            LoadControl(new ChangePassUC());
+        }
+
+        // Đăng xuất
+        private void buttonLogout_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn đăng xuất không?",
                                                   "Đăng xuất",

@@ -154,7 +154,7 @@
             // 
             this.button3.Location = new System.Drawing.Point(39, 327);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(198, 23);
+            this.button3.Size = new System.Drawing.Size(158, 23);
             this.button3.TabIndex = 11;
             this.button3.Text = "Thêm nhân viên khác";
             this.button3.UseVisualStyleBackColor = true;

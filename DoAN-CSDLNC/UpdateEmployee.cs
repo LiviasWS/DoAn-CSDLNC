@@ -20,8 +20,9 @@ namespace DoAN_CSDLNC
             comboBoxRole.Items.Clear();
             comboBoxRole.Items.AddRange(new string[]
             {
-                "manage",
-                "staff",
+                "manager",
+                "sell staff",
+                "inventory staff",
                 "security guard",
                 "shipper"
             });
@@ -36,6 +37,7 @@ namespace DoAN_CSDLNC
                 txtAddress.Text = emp.Address;
                 txtIdNumber.Text = emp.IdNumber;
                 dateTimePicker1.Value = emp.DateOfBirth;
+                chkIsActive.Checked = emp.IsActive;
 
                 if (!string.IsNullOrEmpty(emp.Role))
                 {
@@ -77,7 +79,8 @@ namespace DoAN_CSDLNC
                     .Set(emp => emp.Address, txtAddress.Text.Trim())
                     .Set(emp => emp.IdNumber, txtIdNumber.Text.Trim())
                     .Set(emp => emp.DateOfBirth, dateTimePicker1.Value)
-                    .Set(emp => emp.Role, comboBoxRole.Text);
+                    .Set(emp => emp.Role, comboBoxRole.Text)
+                    .Set(s => s.IsActive, chkIsActive.Checked);
 
                 employeesCollection.UpdateOne(emp => emp.Id == _employee.Id, update);
                 MessageBox.Show("Cập nhật nhân viên thành công!");

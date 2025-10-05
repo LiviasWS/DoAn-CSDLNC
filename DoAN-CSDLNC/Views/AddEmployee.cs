@@ -10,9 +10,6 @@ namespace DoAN_CSDLNC
     {
         private readonly DBConnection _db;
 
-        // Khai báo sự kiện
-        public event EventHandler EmployeeAdded;
-
         public AddEmployee()
         {
             InitializeComponent();
@@ -22,14 +19,11 @@ namespace DoAN_CSDLNC
             comboBoxRole.Items.Clear();
             comboBoxRole.Items.AddRange(new string[]
             {
-                "manager",
-                "sell staff",
-                "inventory staff",
+                "manage",
+                "staff",
                 "security guard",
                 "shipper"
             });
-
-            comboBoxRole.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         // Hàm validate dữ liệu trước khi thêm
@@ -106,10 +100,6 @@ namespace DoAN_CSDLNC
 
                 employeesCollection.InsertOne(newEmp);
                 MessageBox.Show("Thêm nhân viên thành công!");
-
-                // Gọi sự kiện báo về UserControl
-                EmployeeAdded?.Invoke(this, EventArgs.Empty);
-
                 return true;
             }
             catch (Exception ex)

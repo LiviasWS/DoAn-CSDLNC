@@ -17,8 +17,11 @@ namespace DoAN_CSDLNC
 
             _userId = user.Id;
             textBox1.Text = user.Username;
-            if (user.Role == "manager") radioButton1.Checked = true;
-            else radioButton2.Checked = true;
+            if (user.Role == "manager")
+                radioButton1.Checked = true;
+            else if (user.Role == "sell_staff")
+                radioButton2.Checked = true;
+            else radioButton3.Checked = true;
         }
 
         private void btnCapNhat_Click(object sender, EventArgs e)
@@ -29,7 +32,9 @@ namespace DoAN_CSDLNC
 
                 string username = textBox1.Text.Trim();
                 string password = textBox2.Text.Trim();
-                string role = radioButton1.Checked ? "manager" : "staff";
+                string role = radioButton1.Checked ? "manager" :
+                              radioButton2.Checked ? "sell_staff" :
+                              radioButton3.Checked ? "inventory_staff" : null;
 
                 var filter = Builders<User>.Filter.Eq(u => u.Id, _userId);
                 var update = Builders<User>.Update
