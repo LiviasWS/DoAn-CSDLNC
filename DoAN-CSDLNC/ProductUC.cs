@@ -16,5 +16,20 @@ namespace DoAN_CSDLNC
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Mở form thêm sản phẩm
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Mở form sửa sản phẩm
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Xoá sản phẩm
+        }
     }
 }

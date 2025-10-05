@@ -50,7 +50,7 @@
             this.pHighlight.BackColor = System.Drawing.Color.Black;
             this.pHighlight.Location = new System.Drawing.Point(25, 48);
             this.pHighlight.Name = "pHighlight";
-            this.pHighlight.Size = new System.Drawing.Size(260, 5);
+            this.pHighlight.Size = new System.Drawing.Size(275, 5);
             this.pHighlight.TabIndex = 1;
             // 
             // label1
@@ -77,7 +77,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label3.Location = new System.Drawing.Point(220, 88);
+            this.label3.Location = new System.Drawing.Point(235, 85);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 18);
             this.label3.TabIndex = 4;
@@ -95,7 +95,7 @@
             this.Controls.Add(this.lName);
             this.Margin = new System.Windows.Forms.Padding(20);
             this.Name = "UCTable";
-            this.Size = new System.Drawing.Size(320, 126);
+            this.Size = new System.Drawing.Size(337, 126);
             this.Load += new System.EventHandler(this.UCTable_Load);
             this.Click += new System.EventHandler(this.UCTable_Click);
             this.ResumeLayout(false);

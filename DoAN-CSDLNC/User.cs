@@ -19,3 +19,4 @@ namespace DoAN_CSDLNC
         public string Role { get; set; } // manager, staff
     }
 }
+

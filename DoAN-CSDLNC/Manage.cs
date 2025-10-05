@@ -64,7 +64,7 @@ namespace DoAN_CSDLNC
             //HighlightButton((Button)sender);
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void Dashboard_Click(object sender, EventArgs e)
         {
             // Xóa control cũ trong panel (nếu có)
             panelContent.Controls.Clear();
@@ -122,5 +122,66 @@ namespace DoAN_CSDLNC
             LoadControl(new SupplierUC());
             //HighlightButton((Button)sender);
         }
+
+        // Đổi mật khẩu
+        private void ChangePass_Click(object sender, EventArgs e)
+        {
+            LoadControl(new ChangePassUC());
+        }
+
+        // Đăng xuất
+        private void buttonLogout_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn đăng xuất không?",
+                                                  "Đăng xuất",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                // Ẩn form Manage
+                this.Hide();
+
+                // Mở form Login
+                Login loginForm = new Login();
+                loginForm.Show();
+
+                // Khi Login đóng thì thoát hẳn ứng dụng
+                loginForm.FormClosed += (s, args) => Application.Exit();
+            }
+        }
+
+        private bool isCollapsed = false;
+
+        private void btnToggle_Click(object sender, EventArgs e)
+        {
+            if (isCollapsed)
+            {
+                // Mở sidebar
+                panelSidebar.Width = 150; // chiều rộng gốc
+                foreach (Control ctrl in panelSidebar.Controls)
+                {
+                    if (ctrl is Button btn && btn != btnToggle)
+                        btn.Text = btn.Tag?.ToString(); // khôi phục text
+                }
+                isCollapsed = false;
+            }
+            else
+            {
+                // Thu gọn sidebar
+                panelSidebar.Width = 0; // thu hẳn
+                foreach (Control ctrl in panelSidebar.Controls)
+                {
+                    if (ctrl is Button btn && btn != btnToggle)
+                    {
+                        btn.Tag = btn.Text; // lưu lại text gốc
+                        btn.Text = "";      // ẩn text
+                    }
+                }
+                isCollapsed = true;
+            }
+            // panelContent.Dock = DockStyle.Fill đảm bảo nó tự giãn
+        }
+
     }
 }
