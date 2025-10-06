@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DoAN_CSDLNC
@@ -16,39 +10,6 @@ namespace DoAN_CSDLNC
         {
             InitializeComponent();
             //LoadDashboard();
-        }
-
-        private void HighlightButton(Button activeButton)
-        {
-            // Reset lại màu của tất cả button trong sidebar
-            foreach (Control ctrl in panelSidebar.Controls)
-            {
-                if (ctrl is Button btn)
-                {
-                    btn.BackColor = Color.LightGray; // màu mặc định
-                    btn.ForeColor = Color.Black;
-                }
-            }
-
-            // Set màu nổi bật cho button đang chọn
-            activeButton.BackColor = Color.DodgerBlue;
-            activeButton.ForeColor = Color.White;
-        }
-
-        private void LoadDashboard(object sender)
-        {
-            panelContent.Controls.Clear();
-
-            DashboardUC uc = new DashboardUC();
-            uc.Dock = DockStyle.None;
-            uc.Location = new Point(0, 0);
-            uc.Size = new Size(800, 1200); // cao hơn panel để test scroll
-
-            panelContent.AutoScroll = true;
-            panelContent.AutoScrollMinSize = uc.Size;
-
-            panelContent.Controls.Add(uc);
-            HighlightButton((Button)sender);
         }
 
         private void LoadControl(UserControl uc)
@@ -79,7 +40,7 @@ namespace DoAN_CSDLNC
 
             // Bật AutoScroll cho panel
             panelContent.AutoScroll = true;
-            panelContent.AutoScrollMinSize = uc.Size;
+            //panelContent.AutoScrollMinSize = uc.Size;
 
             // Thêm UserControl vào panel
             panelContent.Controls.Add(uc);

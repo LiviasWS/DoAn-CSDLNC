@@ -210,6 +210,15 @@
     <Compile Include="Manage.Designer.cs">
       <DependentUpon>Manage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderItem.cs" />
+    <Compile Include="Models\Payment.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\SizeManage.cs" />
+    <Compile Include="Models\Table.cs" />
+    <Compile Include="Models\Topping.cs" />
     <Compile Include="OrderUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -244,6 +253,12 @@
     </Compile>
     <Compile Include="UpdateEmployee.Designer.cs">
       <DependentUpon>UpdateEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateProducts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateProducts.Designer.cs">
+      <DependentUpon>UpdateProducts.cs</DependentUpon>
     </Compile>
     <Compile Include="UpdateSupplier.cs">
       <SubType>Form</SubType>
@@ -318,6 +333,9 @@
     <EmbeddedResource Include="UpdateEmployee.resx">
       <DependentUpon>UpdateEmployee.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UpdateProducts.resx">
+      <DependentUpon>UpdateProducts.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UpdateSupplier.resx">
       <DependentUpon>UpdateSupplier.cs</DependentUpon>
     </EmbeddedResource>
@@ -342,8 +360,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\login.png" />
+    <Content Include="Models\pexels-bluerhinomedia-2788792.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -34,5 +34,8 @@ namespace DoAN_CSDLNC.Models
 
         [BsonElement("created_at")]
         public DateTime CreatedAt { get; set; }
+
+        [BsonIgnore]
+        public string PaymentMethod { get; set; }
     }
 }

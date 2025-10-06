@@ -30,10 +30,10 @@
         {
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.comboBoxSearchField = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.txtEmployeeId = new System.Windows.Forms.TextBox();
+            this.dtpSearchDate = new System.Windows.Forms.DateTimePicker();
+            this.btnSearch = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,29 +49,12 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 94);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 126);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(883, 433);
+            this.dataGridView1.Size = new System.Drawing.Size(983, 401);
             this.dataGridView1.TabIndex = 14;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(500, 46);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(73, 23);
-            this.btnSearch.TabIndex = 24;
-            this.btnSearch.Text = "Tìm";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            // 
-            // comboBoxSearchField
-            // 
-            this.comboBoxSearchField.FormattingEnabled = true;
-            this.comboBoxSearchField.Location = new System.Drawing.Point(168, 47);
-            this.comboBoxSearchField.Name = "comboBoxSearchField";
-            this.comboBoxSearchField.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxSearchField.TabIndex = 23;
             // 
             // label1
             // 
@@ -82,25 +65,42 @@
             this.label1.TabIndex = 22;
             this.label1.Text = "Tìm kiếm theo tiêu chí:";
             // 
-            // txtSearch
+            // txtEmployeeId
             // 
-            this.txtSearch.Location = new System.Drawing.Point(295, 47);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(199, 22);
-            this.txtSearch.TabIndex = 21;
+            this.txtEmployeeId.Location = new System.Drawing.Point(190, 46);
+            this.txtEmployeeId.Name = "txtEmployeeId";
+            this.txtEmployeeId.Size = new System.Drawing.Size(199, 22);
+            this.txtEmployeeId.TabIndex = 21;
+            // 
+            // dtpSearchDate
+            // 
+            this.dtpSearchDate.Location = new System.Drawing.Point(190, 85);
+            this.dtpSearchDate.Name = "dtpSearchDate";
+            this.dtpSearchDate.Size = new System.Drawing.Size(200, 22);
+            this.dtpSearchDate.TabIndex = 26;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(395, 47);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(73, 23);
+            this.btnSearch.TabIndex = 24;
+            this.btnSearch.Text = "Tìm";
+            this.btnSearch.UseVisualStyleBackColor = true;
             // 
             // OrderUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.dtpSearchDate);
             this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.comboBoxSearchField);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.txtEmployeeId);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dataGridView1);
             this.Name = "OrderUC";
-            this.Size = new System.Drawing.Size(887, 533);
+            this.Size = new System.Drawing.Size(986, 533);
+            this.Load += new System.EventHandler(this.LoadOrdersWithPayment);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -111,9 +111,9 @@
 
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.ComboBox comboBoxSearchField;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.TextBox txtEmployeeId;
+        private System.Windows.Forms.DateTimePicker dtpSearchDate;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
