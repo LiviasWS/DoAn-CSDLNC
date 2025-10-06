@@ -31,7 +31,6 @@ namespace DoAN_CSDLNC
                 var usersCollection = _db.GetCollection<User>("users");
 
                 string username = textBox1.Text.Trim();
-                string password = textBox2.Text.Trim();
                 string role = radioButton1.Checked ? "manager" :
                               radioButton2.Checked ? "sell_staff" :
                               radioButton3.Checked ? "inventory_staff" : null;
@@ -40,11 +39,6 @@ namespace DoAN_CSDLNC
                 var update = Builders<User>.Update
                     .Set(u => u.Username, username)
                     .Set(u => u.Role, role);
-
-                if (!string.IsNullOrEmpty(password))
-                {
-                    update = update.Set(u => u.PasswordHash, PasswordHelper.HashPassword(password));
-                }
 
                 usersCollection.UpdateOne(filter, update);
                 MessageBox.Show("Cập nhật user thành công!");

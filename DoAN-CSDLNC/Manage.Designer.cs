@@ -204,7 +204,6 @@
             // 
             // panelContent
             // 
-            this.panelContent.AutoScroll = true;
             this.panelContent.BackColor = System.Drawing.Color.SandyBrown;
             this.panelContent.Location = new System.Drawing.Point(151, 59);
             this.panelContent.Name = "panelContent";

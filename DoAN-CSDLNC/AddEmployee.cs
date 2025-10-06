@@ -35,6 +35,24 @@ namespace DoAN_CSDLNC
         // Hàm validate dữ liệu trước khi thêm
         private bool ValidateInput()
         {
+            var employeesCollection = _db.GetCollection<Employee>("employees");
+
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("Tên nhân viên không được để trống!");
+                return false;
+            }
+            else
+            {
+                // Regex cho phép chữ cái có dấu, không dấu và khoảng trắng
+                var nameRegex = new Regex(@"^[a-zA-ZÀ-ỹ\s]+$");
+                if (!nameRegex.IsMatch(txtName.Text.Trim()))
+                {
+                    MessageBox.Show("Tên nhân viên không hợp lệ! (Chỉ chứa chữ và khoảng trắng, không chứa số hoặc ký tự đặc biệt)");
+                    return false;
+                }
+            }
+
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
                 MessageBox.Show("Tên nhân viên không được để trống!");
@@ -51,6 +69,16 @@ namespace DoAN_CSDLNC
                 MessageBox.Show("Số điện thoại chỉ được nhập số!");
                 return false;
             }
+            else
+            {
+                // Kiểm tra trùng số điện thoại
+                var existsPhone = employeesCollection.Find(e => e.Phone == txtPhone.Text.Trim()).FirstOrDefault();
+                if (existsPhone != null)
+                {
+                    MessageBox.Show("Số điện thoại này đã tồn tại!");
+                    return false;
+                }
+            }
 
             if (!string.IsNullOrEmpty(txtEmail.Text))
             {
@@ -59,6 +87,16 @@ namespace DoAN_CSDLNC
                 {
                     MessageBox.Show("Email không hợp lệ!");
                     return false;
+                }
+                else
+                {
+                    // Kiểm tra trùng email
+                    var existsEmail = employeesCollection.Find(e => e.Email == txtEmail.Text.Trim()).FirstOrDefault();
+                    if (existsEmail != null)
+                    {
+                        MessageBox.Show("Email này đã tồn tại!");
+                        return false;
+                    }
                 }
             }
 
@@ -77,6 +115,16 @@ namespace DoAN_CSDLNC
             {
                 MessageBox.Show("CMND/CCCD (ID Number) chỉ được nhập số!");
                 return false;
+            }
+            else
+            {
+                // Kiểm tra trùng ID Number
+                var existsId = employeesCollection.Find(e => e.IdNumber == txtIdNumber.Text.Trim()).FirstOrDefault();
+                if (existsId != null)
+                {
+                    MessageBox.Show("CMND/CCCD (ID Number) này đã tồn tại!");
+                    return false;
+                }
             }
 
             return true;
@@ -124,6 +172,27 @@ namespace DoAN_CSDLNC
         {
             if (AddEmployeeToDB())
             {
+                // Lấy role hiện tại
+                string role = comboBoxRole.Text.Trim().ToLower();
+
+                // Nếu role thuộc nhóm cần hỏi
+                if (role == "manager" || role == "sell staff" || role == "inventory staff")
+                {
+                    var result = MessageBox.Show(
+                        "Nhân viên này thuộc nhóm có quyền truy cập hệ thống.\nBạn có muốn thêm tài khoản user cho nhân viên này không?",
+                        "Thêm user?",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
+                    if (result == DialogResult.Yes)
+                    {
+                        // Gọi form AddUser (chỉ hiển thị, không cần truyền dữ liệu)
+                        AddUser frm = new AddUser();
+                        frm.ShowDialog();
+                    }
+                }
+
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
