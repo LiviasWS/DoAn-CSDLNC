@@ -112,3 +112,5 @@ G:\DoAn-CSDLNC\DoAN-CSDLNC\bin\Debug\System.Security.Principal.Windows.xml
 G:\DoAn-CSDLNC\DoAN-CSDLNC\bin\Debug\System.Text.Encoding.CodePages.xml
 G:\DoAn-CSDLNC\DoAN-CSDLNC\bin\Debug\System.Threading.Tasks.Extensions.xml
 G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN-CSD.99E0C015.Up2Date
+G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.StockInForm.resources
+G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.StockOutForm.resources

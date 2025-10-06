@@ -13,38 +13,33 @@ namespace DoAN_CSDLNC.DAL
 
         public NguyenLieuDAL()
         {
-            var db = new DBConnection(); 
+            var db = new DBConnection();
             _nguyenLieus = db.GetCollection<NguyenLieu>("Nguyenlieu");
         }
 
-        // Create
-        public async Task AddNguyenLieuAsync(NguyenLieu nl)
+        public void AddNguyenLieu(NguyenLieu nl)
         {
-            await _nguyenLieus.InsertOneAsync(nl);
+            _nguyenLieus.InsertOne(nl);
         }
 
-        // Read all
-        public async Task<List<NguyenLieu>> GetAllNguyenLieusAsync()
+        public List<NguyenLieu> GetAllNguyenLieus()
         {
-            return await _nguyenLieus.Find(new BsonDocument()).ToListAsync();
+            return _nguyenLieus.Find(new BsonDocument()).ToList();
         }
 
-        // Read by Id
-        public async Task<NguyenLieu> GetNguyenLieuByIdAsync(string id)
+        public NguyenLieu GetNguyenLieuById(string id)
         {
-            return await _nguyenLieus.Find(n => n.Id == id).FirstOrDefaultAsync();
+            return _nguyenLieus.Find(n => n.Id == id).FirstOrDefault();
         }
 
-        // Update
-        public async Task UpdateNguyenLieuAsync(string id, NguyenLieu updated)
+        public void UpdateNguyenLieu(string id, NguyenLieu updated)
         {
-            await _nguyenLieus.ReplaceOneAsync(n => n.Id == id, updated);
+            _nguyenLieus.ReplaceOne(n => n.Id == id, updated);
         }
 
-        // Delete
-        public async Task DeleteNguyenLieuAsync(string id)
+        public void DeleteNguyenLieu(string id)
         {
-            await _nguyenLieus.DeleteOneAsync(n => n.Id == id);
+            _nguyenLieus.DeleteOne(n => n.Id == id);
         }
     }
 }

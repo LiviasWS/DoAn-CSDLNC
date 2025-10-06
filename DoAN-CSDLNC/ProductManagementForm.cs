@@ -1,78 +1,79 @@
-﻿using DoAN_CSDLNC.DAL;
+﻿using DoAN_CSDLNC.BLL;
+using DoAN_CSDLNC.DAL;
 using Hethongbancafe.CafeManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace DoAN_CSDLNC
 {
     public partial class ProductManagementForm : Form
     {
-        private readonly NguyenLieuDAL _nguyenLieuDAL;
-
-        private enum FormMode { None, Add, Edit }
-        private FormMode _mode = FormMode.None;
-        private string _editingId = null;
+        private readonly NguyenLieuBLL _nguyenLieuBLL;
         public ProductManagementForm()
         {
             InitializeComponent();
-
-            _nguyenLieuDAL = new NguyenLieuDAL();
-
-            // Gắn event: TÊN HÀM phải trùng 100%
-            btnAdd.Click += btnAdd_Click;
-            btnEdit.Click += btnEdit_Click;
-            btnDelete.Click += btnDelete_Click;
-            btnSave.Click += btnSave_Click;
-            btnSearch.Click += btnSearch_Click;
-
-            // Các nút khác nếu có trên form
-            btnExport.Click += btnExport_Click;
-            btnReceive.Click += btnRecieve_Click;   // tên đúng: Receive (không phải Recieve)
-            btnIssue.Click += btnIssue_Click;
-            btnTransfer.Click += btnTransfer_Click;
-            btnStockCount.Click += btnStockCount_Click;
-            btnClear.Click += btnClear_Click;
-
-            // Chọn dòng -> đổ lên form
-            dgvProducts.SelectionChanged += dgvProducts_SelectionChanged;
-
-            // Load dữ liệu lúc mở form
-            this.Load += async (_, __) => await RefreshGridAsync();
-
-            // (khuyên) bật checkbox cho DateTimePicker nếu muốn cho phép null
-            dtpMfg.ShowCheckBox = true;
-            dtpExp.ShowCheckBox = true;
+            _nguyenLieuBLL = new NguyenLieuBLL();
+            LoadData();
         }
 
-        // ================== DATA BIND ==================
-        private async Task RefreshGridAsync()
+        private void LoadData()
         {
-            var items = await _nguyenLieuDAL.GetAllNguyenLieusAsync();
-            dgvProducts.AutoGenerateColumns = true;
-            dgvProducts.DataSource = null;
-            dgvProducts.DataSource = items;
-            if (dgvProducts.Columns["Id"] != null)
-                dgvProducts.Columns["Id"].Visible = false;
+            try
+            {
+                var items = _nguyenLieuBLL.GetAllNguyenLieus();
+                dgvProducts.AutoGenerateColumns = true;
+                dgvProducts.DataSource = null;
+                dgvProducts.DataSource = items;
+                if (dgvProducts.Columns["Id"] != null)
+                    dgvProducts.Columns["Id"].Visible = false;
+                dgvProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message);
+            }
         }
 
-        private NguyenLieu GetSelectedRow()
+        private NguyenLieu GetSelected()
         {
             return dgvProducts.CurrentRow?.DataBoundItem as NguyenLieu;
+        }
+
+        private NguyenLieu ReadForm()
+        {
+            return new NguyenLieu
+            {
+                SKU = txtSKU.Text?.Trim(),
+                Name = txtName.Text?.Trim(),
+                Group = cboGroup.Text,
+                Supplier = cboSupplier.Text,
+                Warehouse = cboWarehouse.Text,
+                UomBase = txtUomBase.Text?.Trim(),
+                UomAlt = txtUomAlt.Text?.Trim(),
+                ConversionRate = (int?)nudConv.Value,
+                PriceIn = nudPriceIn.Value,
+                MinStock = (int?)nudMin.Value,
+                MaxStock = (int?)nudMax.Value,
+                Batch = txtBatch.Text?.Trim(),
+                MfgDate = dtpMfg.Checked ? (DateTime?)dtpMfg.Value : null,
+                ExpDate = dtpExp.Checked ? (DateTime?)dtpExp.Value : null,
+                Fefo = chkFEFO.Checked,
+                LossPercent = (double?)nudLoss.Value,
+                Note = txtNote.Text
+            };
         }
 
         private void FillForm(NguyenLieu nl)
         {
             if (nl == null) return;
-            _editingId = nl.Id;
-
             txtSKU.Text = nl.SKU;
             txtName.Text = nl.Name;
             cboGroup.Text = nl.Group;
@@ -80,17 +81,15 @@ namespace DoAN_CSDLNC
             cboWarehouse.Text = nl.Warehouse;
             txtUomBase.Text = nl.UomBase;
             txtUomAlt.Text = nl.UomAlt;
-
             nudConv.Value = (decimal)(nl.ConversionRate ?? 0);
             nudPriceIn.Value = (nl.PriceIn ?? 0);
             nudMin.Value = (decimal)(nl.MinStock ?? 0);
             nudMax.Value = (decimal)(nl.MaxStock ?? 0);
-
             txtBatch.Text = nl.Batch;
-
-            if (nl.MfgDate.HasValue) { dtpMfg.Value = nl.MfgDate.Value; dtpMfg.Checked = true; } else dtpMfg.Checked = false;
-            if (nl.ExpDate.HasValue) { dtpExp.Value = nl.ExpDate.Value; dtpExp.Checked = true; } else dtpExp.Checked = false;
-
+            dtpMfg.Checked = nl.MfgDate.HasValue;
+            if (nl.MfgDate.HasValue) dtpMfg.Value = nl.MfgDate.Value;
+            dtpExp.Checked = nl.ExpDate.HasValue;
+            if (nl.ExpDate.HasValue) dtpExp.Value = nl.ExpDate.Value;
             chkFEFO.Checked = nl.Fefo ?? false;
             nudLoss.Value = (decimal)(nl.LossPercent ?? 0);
             txtNote.Text = nl.Note;
@@ -98,7 +97,6 @@ namespace DoAN_CSDLNC
 
         private void ClearForm()
         {
-            _editingId = null;
             txtSKU.Clear();
             txtName.Clear();
             cboGroup.SelectedIndex = -1;
@@ -118,294 +116,263 @@ namespace DoAN_CSDLNC
             txtNote.Clear();
         }
 
-        private bool ValidateForm(out string message)
-        {
-            if (string.IsNullOrWhiteSpace(txtSKU.Text))
-            {
-                message = "Mã (SKU) không được để trống.";
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtName.Text))
-            {
-                message = "Tên nguyên liệu không được để trống.";
-                return false;
-            }
-            message = null;
-            return true;
-        }
-
-        private NguyenLieu ReadForm()
-        {
-            return new NguyenLieu
-            {
-                Id = _editingId,
-                SKU = txtSKU.Text?.Trim(),
-                Name = txtName.Text?.Trim(),
-                Group = cboGroup.Text,
-                Supplier = cboSupplier.Text,
-                Warehouse = cboWarehouse.Text,
-                UomBase = txtUomBase.Text?.Trim(),
-                UomAlt = txtUomAlt.Text?.Trim(),
-                ConversionRate = (int?)nudConv.Value,         // nullable
-                PriceIn = nudPriceIn.Value,            // decimal?
-                MinStock = (int?)nudMin.Value,
-                MaxStock = (int?)nudMax.Value,
-                Batch = txtBatch.Text?.Trim(),
-                MfgDate = dtpMfg.Checked ? dtpMfg.Value : (DateTime?)null,
-                ExpDate = dtpExp.Checked ? dtpExp.Value : (DateTime?)null,
-                Fefo = chkFEFO.Checked,
-                LossPercent = (double?)nudLoss.Value,
-                Note = txtNote.Text
-            };
-        }
-
-        // ================== EVENTS ==================
-        private void dgvProducts_SelectionChanged(object sender, EventArgs e)
-        {
-            if (_mode == FormMode.Add) return;
-            var nl = GetSelectedRow();
-            if (nl != null)
-            {
-                _mode = FormMode.Edit;
-                FillForm(nl);
-            }
-        }
-
+        // ================== BUTTON HANDLERS ==================
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            _mode = FormMode.Add;
-            ClearForm();
-            txtSKU.Focus();
+            try
+            {
+                var nl = ReadForm();
+                _nguyenLieuBLL.AddNguyenLieu(nl);
+                LoadData();
+                ClearForm();
+                MessageBox.Show("Thêm nguyên liệu thành công!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi thêm: " + ex.Message);
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            var nl = GetSelectedRow();
-            if (nl == null) { MessageBox.Show("Chọn một dòng để sửa."); return; }
-            _mode = FormMode.Edit;
-            FillForm(nl);
-        }
-
-        private async void btnDelete_Click(object sender, EventArgs e)
-        {
-            var nl = GetSelectedRow();
-            if (nl == null) { MessageBox.Show("Chọn một dòng để xóa."); return; }
-
-            if (MessageBox.Show("Xóa nguyên liệu này?", "Xác nhận",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                await _nguyenLieuDAL.DeleteNguyenLieuAsync(nl.Id);
-                await RefreshGridAsync();
-                ClearForm();
-                _mode = FormMode.None;
-            }
-        }
-
-        private async void btnSave_Click(object sender, EventArgs e)
-        {
-            if (!ValidateForm(out var msg))
-            {
-                MessageBox.Show(msg, "Thiếu dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             try
             {
-                var data = ReadForm();
+                var selected = GetSelected();
+                if (selected == null) { MessageBox.Show("Chọn dòng để sửa."); return; }
 
-                if (_mode == FormMode.Add)
-                {
-                    // tránh trùng SKU (client-side)
-                    var all = await _nguyenLieuDAL.GetAllNguyenLieusAsync();
-                    if (all.Any(x => string.Equals(x.SKU, data.SKU, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        MessageBox.Show("SKU đã tồn tại. Vui lòng nhập mã khác.");
-                        return;
-                    }
+                var updated = ReadForm();
+                updated.Id = selected.Id;
 
-                    await _nguyenLieuDAL.AddNguyenLieuAsync(data);
-                    MessageBox.Show("Đã thêm nguyên liệu!");
-                }
-                else if (_mode == FormMode.Edit && !string.IsNullOrEmpty(_editingId))
-                {
-                    await _nguyenLieuDAL.UpdateNguyenLieuAsync(_editingId, data);
-                    MessageBox.Show("Đã cập nhật nguyên liệu!");
-                }
-                else
-                {
-                    MessageBox.Show("Chưa chọn chế độ Thêm/Sửa.");
-                    return;
-                }
-
-                _mode = FormMode.None;
-                await RefreshGridAsync();
-                ClearForm();
+                _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, updated);
+                LoadData();
+                MessageBox.Show("Cập nhật thành công!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi lưu: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi sửa: " + ex.Message);
             }
         }
 
-        private async void btnSearch_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
-            // Nếu muốn InputBox: uncomment using Microsoft.VisualBasic và block dưới
-            // var keyword = Interaction.InputBox("Nhập từ khóa (SKU/Tên):", "Tìm kiếm", "");
-            // if (string.IsNullOrWhiteSpace(keyword)) { await RefreshGridAsync(); return; }
-            // var k = keyword.Trim();
+            try
+            {
+                var selected = GetSelected();
+                if (selected == null)
+                {
+                    MessageBox.Show("Chọn dòng để xóa."); return;
+                }
 
-            // Mình dùng Prompt đơn giản:
-            var k = txtName.Text?.Trim(); // ví dụ lấy theo ô tên; bạn có thể làm TextBox riêng cho search
-            if (string.IsNullOrWhiteSpace(k)) { await RefreshGridAsync(); return; }
+                if (MessageBox.Show("Xóa nguyên liệu này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    _nguyenLieuBLL.DeleteNguyenLieu(selected.Id);
+                    LoadData();
+                    ClearForm();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi xóa: " + ex.Message);
+            }
+        }
 
-            var items = await _nguyenLieuDAL.GetAllNguyenLieusAsync();
-            var filtered = items.Where(x =>
-                (!string.IsNullOrEmpty(x.SKU) && x.SKU.IndexOf(k, StringComparison.OrdinalIgnoreCase) >= 0) ||
-                (!string.IsNullOrEmpty(x.Name) && x.Name.IndexOf(k, StringComparison.OrdinalIgnoreCase) >= 0)
-            ).ToList();
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            var keyword = txtName.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                LoadData();
+                return;
+            }
 
-            dgvProducts.DataSource = null;
-            dgvProducts.DataSource = filtered;
-            if (dgvProducts.Columns["Id"] != null)
-                dgvProducts.Columns["Id"].Visible = false;
+            var result = _nguyenLieuBLL.SearchNguyenLieu(keyword);
+            dgvProducts.DataSource = result;
         }
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            // Xuất CSV (tránh lỗi ClosedXML). Nếu muốn Excel .xlsx, cài ClosedXML + DocumentFormat.OpenXml
-            using (var sfd = new SaveFileDialog() { Filter = "CSV Files|*.csv", FileName = "NguyenLieu.csv" })
+            try
             {
-                if (sfd.ShowDialog() == DialogResult.OK)
+                var list = dgvProducts.DataSource as IEnumerable<NguyenLieu>;
+                if (list == null || !list.Any())
                 {
-                    try
-                    {
-                        var list = dgvProducts.DataSource as IEnumerable<NguyenLieu>;
-                        if (list == null)
-                        {
-                            MessageBox.Show("Không có dữ liệu để xuất.");
-                            return;
-                        }
+                    MessageBox.Show("Không có dữ liệu để xuất.");
+                    return;
+                }
 
+                using (var sfd = new SaveFileDialog() { Filter = "CSV Files|*.csv", FileName = "NguyenLieu.csv" })
+                {
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
                         var sb = new StringBuilder();
-                        sb.AppendLine("SKU,Name,Group,Supplier,Warehouse,UomBase,UomAlt,ConversionRate,PriceIn,MinStock,MaxStock,Batch,MfgDate,ExpDate,FEFO,LossPercent,Note");
+                        sb.AppendLine("SKU,Name,Group,Supplier,Warehouse,PriceIn,MinStock,MaxStock,Note");
                         foreach (var x in list)
                         {
-                            sb.AppendLine(string.Join(",",
-                                Escape(x.SKU), Escape(x.Name), Escape(x.Group), Escape(x.Supplier), Escape(x.Warehouse),
-                                Escape(x.UomBase), Escape(x.UomAlt),
-                                (x.ConversionRate ?? 0),
-                                (x.PriceIn ?? 0),
-                                (x.MinStock ?? 0),
-                                (x.MaxStock ?? 0),
-                                Escape(x.Batch),
-                                x.MfgDate?.ToString("yyyy-MM-dd") ?? "",
-                                x.ExpDate?.ToString("yyyy-MM-dd") ?? "",
-                                (x.Fefo ?? false),
-                                (x.LossPercent ?? 0),
-                                Escape(x.Note)
-                            ));
+                            sb.AppendLine(string.Join(",", x.SKU, x.Name, x.Group, x.Supplier, x.Warehouse,
+                                x.PriceIn, x.MinStock, x.MaxStock, x.Note));
                         }
                         File.WriteAllText(sfd.FileName, sb.ToString(), Encoding.UTF8);
                         MessageBox.Show("Xuất CSV thành công!");
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Lỗi xuất CSV: {ex.Message}");
-                    }
                 }
             }
-
-            string Escape(string s)
+            catch (Exception ex)
             {
-                if (string.IsNullOrEmpty(s)) return "";
-                if (s.Contains(",") || s.Contains("\""))
-                    return "\"" + s.Replace("\"", "\"\"") + "\"";
-                return s;
+                MessageBox.Show("Lỗi xuất CSV: " + ex.Message);
             }
         }
 
-        private async void btnRecieve_Click(object sender, EventArgs e)
+        private void btnReceive_Click(object sender, EventArgs e)
         {
-            var selected = GetSelectedRow();
-            if (selected == null) { MessageBox.Show("Chọn một dòng."); return; }
+            var selected = GetSelected();
+            if (selected == null)
+            {
+                MessageBox.Show("Chọn một dòng.");
+                return;
+            }
 
-            // ví dụ: nhập thêm 50
-            selected.MaxStock = (selected.MaxStock ?? 0) + 50;
-            await _nguyenLieuDAL.UpdateNguyenLieuAsync(selected.Id, selected);
-            await RefreshGridAsync();
-            MessageBox.Show("Đã nhập kho +50.");
+            using (var stockInForm = new StockInForm())
+            {
+                if (stockInForm.ShowDialog() == DialogResult.OK)
+                {
+                    int quantityToAdd = stockInForm.QuantityToAdd;
+
+                    selected.MaxStock = (selected.MaxStock ?? 0) + quantityToAdd;
+                    _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, selected);
+                    LoadData();
+                    MessageBox.Show($"Đã nhập kho +{quantityToAdd}.");
+                }
+            }
         }
 
-        private async void btnIssue_Click(object sender, EventArgs e)
+        private void btnIssue_Click(object sender, EventArgs e)
         {
-            var selected = GetSelectedRow();
-            if (selected == null) { MessageBox.Show("Chọn một dòng."); return; }
+            var selected = GetSelected();
+            if (selected == null)
+            {
+                MessageBox.Show("Chọn một dòng.");
+                return;
+            }
 
-            var current = (selected.MaxStock ?? 0);
-            if (current <= 0) { MessageBox.Show("Không đủ hàng để xuất."); return; }
+            var currentStock = selected.MaxStock ?? 0;
+            if (currentStock <= 0)
+            {
+                MessageBox.Show("Không đủ hàng để xuất.");
+                return;
+            }
 
-            selected.MaxStock = Math.Max(0, current - 20); // ví dụ: xuất 20
-            await _nguyenLieuDAL.UpdateNguyenLieuAsync(selected.Id, selected);
-            await RefreshGridAsync();
-            MessageBox.Show("Đã xuất kho -20.");
+            using (var stockOutForm = new StockOutForm())
+            {
+                if (stockOutForm.ShowDialog() == DialogResult.OK)
+                {
+                    int quantityToDeduct = stockOutForm.QuantityToDeduct;
+
+                    if (quantityToDeduct > currentStock)
+                    {
+                        MessageBox.Show($"Không đủ hàng. Tồn kho hiện tại: {currentStock}.");
+                        return;
+                    }
+
+                    selected.MaxStock = currentStock - quantityToDeduct;
+                    _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, selected);
+                    LoadData();
+                    MessageBox.Show($"Đã xuất kho -{quantityToDeduct}.");
+                }
+            }
         }
 
-        private async void btnTransfer_Click(object sender, EventArgs e)
+        private void btnTransfer_Click(object sender, EventArgs e)
         {
-            var selected = GetSelectedRow();
+            var selected = GetSelected();
             if (selected == null) { MessageBox.Show("Chọn một dòng."); return; }
 
-            // ví dụ chuyển sang "Kho Lạnh"
             selected.Warehouse = "Kho Lạnh";
-            await _nguyenLieuDAL.UpdateNguyenLieuAsync(selected.Id, selected);
-            await RefreshGridAsync();
-            MessageBox.Show("Đã chuyển kho.");
+            _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, selected);
+            LoadData();
+            MessageBox.Show("Đã chuyển sang Kho Lạnh.");
         }
 
         private void btnStockCount_Click(object sender, EventArgs e)
         {
-            int total = 0;
-            foreach (DataGridViewRow row in dgvProducts.Rows)
-            {
-                if (row.DataBoundItem is NguyenLieu nl)
-                    total += (nl.MaxStock ?? 0);
-            }
-            MessageBox.Show($"Tổng tồn kho: {total}");
+            var items = _nguyenLieuBLL.GetAllNguyenLieus();
+            int total = items.Sum(x => x.MaxStock ?? 0);
+            MessageBox.Show("Tổng tồn kho: " + total);
         }
 
-        private async void btnClear_Click(object sender, EventArgs e)
+        private void btnClear_Click(object sender, EventArgs e)
         {
             ClearForm();
-            await RefreshGridAsync();
+            LoadData();
         }
 
-        private void btnlogout_Click(object sender, EventArgs e)
+        private void dgvProducts_SelectionChanged(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có muốn đăng xuất không?", "Đăng xuất",
-        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                // Ẩn form hiện tại
-                this.Hide();
-
-                // Mở lại form đăng nhập
-                var loginForm = new Login();
-                loginForm.Show();
-
-                // Đóng form quản lý sau khi logout
-                this.Close();
-            }
+            var nl = GetSelected();
+            if (nl != null) FillForm(nl);
         }
+
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc muốn quay lại màn hình đăng nhập?",
-                                "Xác nhận",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question) == DialogResult.Yes)
+
+        }
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
             {
-                this.Hide(); // Ẩn form hiện tại
-                var loginForm = new Login(); // Mở form đăng nhập giả
-                loginForm.Show();
+                // Validate cơ bản
+                if (string.IsNullOrWhiteSpace(txtSKU.Text))
+                {
+                    MessageBox.Show("Mã (SKU) không được để trống.", "Thiếu dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtSKU.Focus();
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(txtName.Text))
+                {
+                    MessageBox.Show("Tên nguyên liệu không được để trống.", "Thiếu dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtName.Focus();
+                    return;
+                }
+
+                // Lấy dữ liệu từ form
+                var nlFromForm = ReadForm();
+
+                // Kiểm tra xem có đang chọn 1 dòng trong grid hay không
+                var selected = GetSelected();
+
+                if (selected == null)
+                {
+                    // Không có dòng chọn => Thêm mới
+                    try
+                    {
+                        _nguyenLieuBLL.AddNguyenLieu(nlFromForm);
+                        MessageBox.Show("Đã thêm nguyên liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ClearForm();
+                        LoadData();
+                    }
+                    catch (Exception exAdd)
+                    {
+                        MessageBox.Show("Lỗi khi thêm nguyên liệu: " + exAdd.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    // Có dòng chọn => Cập nhật (Save)
+                    try
+                    {
+                        nlFromForm.Id = selected.Id; // gán Id để update
+                        _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, nlFromForm);
+                        MessageBox.Show("Đã lưu (cập nhật) nguyên liệu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData();
+                    }
+                    catch (Exception exUpd)
+                    {
+                        MessageBox.Show("Lỗi khi cập nhật nguyên liệu: " + exUpd.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi không mong muốn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -415,6 +382,91 @@ namespace DoAN_CSDLNC
         }
 
         private void ProductManagementForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvProducts_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0 || dgvProducts.Rows.Count == 0)
+                    return;
+
+                // Lấy dòng hiện tại
+                DataGridViewRow row = dgvProducts.Rows[e.RowIndex];
+
+                // Gán giá trị cho các ô nhập liệu
+                txtSKU.Text = row.Cells["SKU"].Value?.ToString();
+                txtName.Text = row.Cells["Name"].Value?.ToString();
+                cboGroup.Text = row.Cells["Group"].Value?.ToString();
+                cboSupplier.Text = row.Cells["Supplier"].Value?.ToString();
+                cboWarehouse.Text = row.Cells["Warehouse"].Value?.ToString();
+
+                txtUomBase.Text = row.Cells["UomBase"].Value?.ToString();
+                txtUomAlt.Text = row.Cells["UomAlt"].Value?.ToString();
+                txtBatch.Text = row.Cells["Batch"].Value?.ToString();
+                txtNote.Text = row.Cells["Note"].Value?.ToString();
+
+                // NumericUpDown
+                if (decimal.TryParse(row.Cells["PriceIn"].Value?.ToString(), out decimal price))
+                    nudPriceIn.Value = price > nudPriceIn.Maximum ? nudPriceIn.Maximum : price;
+
+                if (decimal.TryParse(row.Cells["MinStock"].Value?.ToString(), out decimal min))
+                    nudMin.Value = min > nudMin.Maximum ? nudMin.Maximum : min;
+
+                if (decimal.TryParse(row.Cells["MaxStock"].Value?.ToString(), out decimal max))
+                    nudMax.Value = max > nudMax.Maximum ? nudMax.Maximum : max;
+
+                if (decimal.TryParse(row.Cells["ConversionRate"].Value?.ToString(), out decimal conv))
+                    nudConv.Value = conv > nudConv.Maximum ? nudConv.Maximum : conv;
+
+                if (decimal.TryParse(row.Cells["LossPercent"].Value?.ToString(), out decimal loss))
+                    nudLoss.Value = loss > nudLoss.Maximum ? nudLoss.Maximum : loss;
+
+                // FEFO checkbox
+                if (bool.TryParse(row.Cells["Fefo"].Value?.ToString(), out bool fefo))
+                    chkFEFO.Checked = fefo;
+                else
+                    chkFEFO.Checked = false;
+
+                // DateTimePicker
+                if (DateTime.TryParse(row.Cells["MfgDate"].Value?.ToString(), out DateTime mfg))
+                {
+                    dtpMfg.Value = mfg;
+                    dtpMfg.Checked = true;
+                }
+                else
+                    dtpMfg.Checked = false;
+
+                if (DateTime.TryParse(row.Cells["ExpDate"].Value?.ToString(), out DateTime exp))
+                {
+                    dtpExp.Value = exp;
+                    dtpExp.Checked = true;
+                }
+                else
+                    dtpExp.Checked = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi load dữ liệu dòng: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void btnlogout_Click_1(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn thoát không?", "Thoát", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                this.Hide();
+                var login = new Login();
+                login.Show();
+                this.Close();
+            }
+
+        }
+
+        private void btnChooseImage_Click(object sender, EventArgs e)
         {
 
         }
