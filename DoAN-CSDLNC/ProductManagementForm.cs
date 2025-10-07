@@ -1,6 +1,5 @@
 ﻿using DoAN_CSDLNC.BLL;
 using DoAN_CSDLNC.DAL;
-using Hethongbancafe.CafeManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static DoAN_CSDLNC.DAL.NguyenLieuDAL;
+using DoAN_CSDLNC.Models;
 
 namespace DoAN_CSDLNC
 {
@@ -124,6 +124,10 @@ namespace DoAN_CSDLNC
             {
                 var nl = ReadForm();
                 _nguyenLieuBLL.AddNguyenLieu(nl);
+
+                // ✍️ Ghi lịch sử tạo mới (không thay đổi tồn, nên Qty = 0)
+                LogHistory(nl, "ADD", 0, 0, nl.MaxStock ?? 0, "Tạo mới sản phẩm");
+
                 LoadData();
                 ClearForm();
                 MessageBox.Show("Thêm nguyên liệu thành công!");
@@ -134,6 +138,7 @@ namespace DoAN_CSDLNC
             }
         }
 
+
         private void btnEdit_Click(object sender, EventArgs e)
         {
             try
@@ -141,10 +146,18 @@ namespace DoAN_CSDLNC
                 var selected = GetSelected();
                 if (selected == null) { MessageBox.Show("Chọn dòng để sửa."); return; }
 
+                var beforeQty = selected.MaxStock ?? 0;
+
                 var updated = ReadForm();
                 updated.Id = selected.Id;
 
                 _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, updated);
+
+                var afterQty = updated.MaxStock ?? beforeQty;
+                var delta = afterQty - beforeQty;
+
+                LogHistory(updated, "UPDATE", delta, beforeQty, afterQty, "Cập nhật thông tin");
+
                 LoadData();
                 MessageBox.Show("Cập nhật thành công!");
             }
@@ -154,19 +167,22 @@ namespace DoAN_CSDLNC
             }
         }
 
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             try
             {
                 var selected = GetSelected();
-                if (selected == null)
-                {
-                    MessageBox.Show("Chọn dòng để xóa."); return;
-                }
+                if (selected == null) { MessageBox.Show("Chọn dòng để xóa."); return; }
 
                 if (MessageBox.Show("Xóa nguyên liệu này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    var beforeQty = selected.MaxStock ?? 0;
                     _nguyenLieuBLL.DeleteNguyenLieu(selected.Id);
+
+                    // ✍️ Log trước/ sau = 0
+                    LogHistory(selected, "DELETE", -beforeQty, beforeQty, 0, "Xóa sản phẩm");
+
                     LoadData();
                     ClearForm();
                 }
@@ -176,6 +192,7 @@ namespace DoAN_CSDLNC
                 MessageBox.Show("Lỗi xóa: " + ex.Message);
             }
         }
+
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
@@ -226,91 +243,99 @@ namespace DoAN_CSDLNC
         private void btnReceive_Click(object sender, EventArgs e)
         {
             var selected = GetSelected();
-            if (selected == null)
-            {
-                MessageBox.Show("Chọn một dòng.");
-                return;
-            }
+            if (selected == null) { MessageBox.Show("Chọn một dòng."); return; }
 
             using (var stockInForm = new StockInForm())
             {
                 if (stockInForm.ShowDialog() == DialogResult.OK)
                 {
-                    int quantityToAdd = stockInForm.QuantityToAdd;
+                    int qty = stockInForm.QuantityToAdd;
+                    int before = selected.MaxStock ?? 0;
+                    int after = before + qty;
 
-                    selected.MaxStock = (selected.MaxStock ?? 0) + quantityToAdd;
+                    selected.MaxStock = after;
                     _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, selected);
+
+                    LogHistory(selected, "IN", +qty, before, after, "Nhập kho");
                     LoadData();
-                    MessageBox.Show($"Đã nhập kho +{quantityToAdd}.");
+                    MessageBox.Show($"Đã nhập kho +{qty}.");
                 }
             }
         }
 
+
         private void btnIssue_Click(object sender, EventArgs e)
         {
             var selected = GetSelected();
-            if (selected == null)
-            {
-                MessageBox.Show("Chọn một dòng.");
-                return;
-            }
+            if (selected == null) { MessageBox.Show("Chọn một dòng."); return; }
 
-            var currentStock = selected.MaxStock ?? 0;
-            if (currentStock <= 0)
-            {
-                MessageBox.Show("Không đủ hàng để xuất.");
-                return;
-            }
+            var current = selected.MaxStock ?? 0;
+            if (current <= 0) { MessageBox.Show("Không đủ hàng để xuất."); return; }
 
             using (var stockOutForm = new StockOutForm())
             {
                 if (stockOutForm.ShowDialog() == DialogResult.OK)
                 {
-                    int quantityToDeduct = stockOutForm.QuantityToDeduct;
+                    int qty = stockOutForm.QuantityToDeduct;
+                    if (qty > current) { MessageBox.Show($"Không đủ hàng. Tồn: {current}."); return; }
 
-                    if (quantityToDeduct > currentStock)
-                    {
-                        MessageBox.Show($"Không đủ hàng. Tồn kho hiện tại: {currentStock}.");
-                        return;
-                    }
+                    int before = current;
+                    int after = current - qty;
 
-                    selected.MaxStock = currentStock - quantityToDeduct;
+                    selected.MaxStock = after;
                     _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, selected);
+
+                    LogHistory(selected, "OUT", -qty, before, after, "Xuất kho");
                     LoadData();
-                    MessageBox.Show($"Đã xuất kho -{quantityToDeduct}.");
+                    MessageBox.Show($"Đã xuất kho -{qty}.");
                 }
             }
         }
+
 
         private void btnTransfer_Click(object sender, EventArgs e)
         {
             var selected = GetSelected();
             if (selected == null) { MessageBox.Show("Chọn một dòng."); return; }
 
-            selected.Warehouse = "Kho Lạnh";
+            var before = selected.MaxStock ?? 0;
+
+            selected.Warehouse = "Kho Lạnh"; // ví dụ
             _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, selected);
+
+            LogHistory(selected, "TRANSFER", 0, before, before, "Chuyển kho → Kho Lạnh");
             LoadData();
             MessageBox.Show("Đã chuyển sang Kho Lạnh.");
         }
 
+
         private readonly InventoryDAL _inventoryDAL = new InventoryDAL();
 
-        private async void btnStockCount_Click(object sender, EventArgs e)
+        private void btnStockCount_Click(object sender, EventArgs e)
         {
             var selected = GetSelected();
-            if (selected == null)
+            if (selected == null) { MessageBox.Show("Chọn một mặt hàng để kiểm kê."); return; }
+
+            int current = selected.MaxStock ?? 0;
+
+            // hộp thoại nhập tồn thực tế
+            using (var f = new InputNumberForm("Nhập tồn thực tế", current))
             {
-                MessageBox.Show("Vui lòng chọn nguyên liệu để kiểm kê!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    int actual = f.Value;                 // tồn thực tế
+                    int delta = actual - current;        // chênh lệch
+
+                    selected.MaxStock = actual;
+                    _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, selected);
+
+                    LogHistory(selected, "COUNT", delta, current, actual, "Kiểm kê điều chỉnh");
+                    LoadData();
+                    MessageBox.Show($"Đã cập nhật tồn từ {current} → {actual} (Δ {delta}).");
+                }
             }
-
-            // Gọi DAL để lấy tồn kho thật từ collection Inventory
-            long totalQty = await _inventoryDAL.GetTotalQtyByProductAsync(selected.Id);
-
-            string donVi = !string.IsNullOrEmpty(selected.UomAlt) ? selected.UomAlt : "đơn vị";
-            MessageBox.Show($"Nguyên liệu '{selected.Name}' hiện còn {totalQty} {donVi} trong kho.",
-                "Kết quả kiểm kê", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
 
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -512,10 +537,39 @@ namespace DoAN_CSDLNC
             }
         }
 
+        private readonly StockHistoryDAL _historyDal = new StockHistoryDAL();
+
+        // TODO: lấy username đăng nhập thực tế của bạn.
+        // Tạm thời hardcode:
+        private string CurrentUsername => "admin";
+
+        private void LogHistory(NguyenLieu nl, string action, int deltaQty, int before, int after, string note = null)
+        {
+            var h = new StockHistory
+            {
+                ProductId = nl.Id,
+                SKU = nl.SKU,
+                Name = nl.Name,
+                Action = action,
+                Qty = deltaQty,
+                BeforeQty = before,
+                AfterQty = after,
+                Warehouse = nl.Warehouse,
+                Username = CurrentUsername,
+                Note = note,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _historyDal.Insert(h);
+        }
+
 
         private void btnHistory_Click(object sender, EventArgs e)
         {
-
+            using (var f = new StockHistoryForm())
+            {
+                f.ShowDialog(this);
+            }
         }
     }
 }

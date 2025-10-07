@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
+using MongoDB.Bson;
 
-namespace Hethongbancafe.CafeManagement.Models
+namespace DoAN_CSDLNC.Models
 {
     [BsonIgnoreExtraElements] // tránh vỡ nếu DB dư field
     public class NguyenLieu
@@ -17,9 +17,9 @@ namespace Hethongbancafe.CafeManagement.Models
         [BsonElement("supplier")] public string Supplier { get; set; }
         [BsonElement("warehouse")] public string Warehouse { get; set; }
         [BsonElement("uomBase")] public string UomBase { get; set; }
-        [BsonElement("uomAlt")]  public string UomAlt { get; set; }
+        [BsonElement("uomAlt")] public string UomAlt { get; set; }
 
-        // ✅ nullable
+        // nullable
         [BsonElement("conversionRate")]
         [BsonIgnoreIfNull]
         public int? ConversionRate { get; set; }
@@ -36,7 +36,7 @@ namespace Hethongbancafe.CafeManagement.Models
         [BsonIgnoreIfNull]
         public int? MaxStock { get; set; }
 
-        [BsonElement("batch")]   public string Batch { get; set; }
+        [BsonElement("batch")] public string Batch { get; set; }
         [BsonElement("mfgDate")] public DateTime? MfgDate { get; set; }
         [BsonElement("expDate")] public DateTime? ExpDate { get; set; }
 

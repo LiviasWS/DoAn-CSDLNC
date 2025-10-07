@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DoAN_CSDLNC.Models;
 
 namespace DoAN_CSDLNC.DAL
 {

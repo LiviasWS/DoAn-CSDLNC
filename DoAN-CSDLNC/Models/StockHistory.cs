@@ -2,53 +2,46 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace DoAN_CSDLNC
+namespace DoAN_CSDLNC.Models
 {
     public class StockHistory
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonId, BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
         [BsonElement("productId")]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string ProductId { get; set; }      // Id của NguyenLieu
+        public string ProductId { get; set; }
 
         [BsonElement("sku")]
-        public string SKU { get; set; }            // tiện filter nhanh
+        public string SKU { get; set; }
 
         [BsonElement("name")]
-        public string Name { get; set; }           // tên NL (snapshot)
+        public string Name { get; set; }
 
+        // IN | OUT | TRANSFER | COUNT | ADJUST (tùy bạn dùng)
         [BsonElement("action")]
-        public string Action { get; set; }         // IN | OUT | TRANSFER | COUNT | ADJUST ...
+        public string Action { get; set; }
 
+        // Số lượng thay đổi (+ nhập, - xuất, 0 nếu chuyển kho/không chênh lệch)
         [BsonElement("qty")]
-        public int Qty { get; set; }               // số lượng thay đổi (+/-)
+        public int Qty { get; set; }
 
         [BsonElement("beforeQty")]
-        public int BeforeQty { get; set; }         // tồn trước khi thao tác
+        public int BeforeQty { get; set; }
 
         [BsonElement("afterQty")]
-        public int AfterQty { get; set; }          // tồn sau khi thao tác
+        public int AfterQty { get; set; }
 
         [BsonElement("warehouse")]
-        public string Warehouse { get; set; }      // kho tác động (nếu có)
-
-        [BsonElement("batchId")]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string BatchId { get; set; }        // nếu có quản lý lô
-
-        [BsonElement("refNo")]
-        public string RefNo { get; set; }          // số chứng từ (nếu có)
+        public string Warehouse { get; set; }
 
         [BsonElement("username")]
-        public string Username { get; set; }       // ai thực hiện
+        public string Username { get; set; }
 
         [BsonElement("note")]
         public string Note { get; set; }
 
         [BsonElement("createdAt")]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } // lưu UTC
     }
 }

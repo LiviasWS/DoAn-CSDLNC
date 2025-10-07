@@ -37,5 +37,10 @@ namespace DoAN_CSDLNC
                 MessageBox.Show("Lỗi tải dữ liệu nhà cung cấp: " + ex.Message);
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DoAN_CSDLNC.Data;
+using DoAN_CSDLNC.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -32,19 +33,29 @@ namespace DoAN_CSDLNC.DAL
                  .Limit(limit)
                  .ToList();
 
-        public List<StockHistory> Find(string sku = null, string action = null, string username = null,
-                                       DateTime? from = null, DateTime? to = null, int limit = 1000)
+        public List<StockHistory> Filter(string sku, string user, string action,
+                                 DateTime? fromUtc, DateTime? toUtc)
         {
-            var fb = Builders<StockHistory>.Filter;
-            var f = fb.Empty;
+            var f = Builders<StockHistory>.Filter;
+            var filter = f.Empty;
 
-            if (!string.IsNullOrWhiteSpace(sku)) f &= fb.Eq(x => x.SKU, sku);
-            if (!string.IsNullOrWhiteSpace(action)) f &= fb.Eq(x => x.Action, action);
-            if (!string.IsNullOrWhiteSpace(username)) f &= fb.Eq(x => x.Username, username);
-            if (from.HasValue) f &= fb.Gte(x => x.CreatedAt, from.Value);
-            if (to.HasValue) f &= fb.Lte(x => x.CreatedAt, to.Value);
+            if (!string.IsNullOrWhiteSpace(sku))
+                filter &= f.Regex(x => x.SKU, new MongoDB.Bson.BsonRegularExpression(sku.Trim(), "i"));
 
-            return _hist.Find(f).SortByDescending(x => x.CreatedAt).Limit(limit).ToList();
+            if (!string.IsNullOrWhiteSpace(user))
+                filter &= f.Regex(x => x.Username, new MongoDB.Bson.BsonRegularExpression(user.Trim(), "i"));
+
+            if (!string.IsNullOrWhiteSpace(action))
+                filter &= f.Eq(x => x.Action, action);
+
+            if (fromUtc.HasValue)
+                filter &= f.Gte(x => x.CreatedAt, fromUtc.Value);
+
+            if (toUtc.HasValue)
+                filter &= f.Lte(x => x.CreatedAt, toUtc.Value);
+
+            return _hist.Find(filter).SortByDescending(x => x.CreatedAt).ToList();
         }
+
     }
 }

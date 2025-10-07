@@ -16,5 +16,10 @@ namespace DoAN_CSDLNC
         {
             InitializeComponent();
         }
+
+        private void AddSupplier_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

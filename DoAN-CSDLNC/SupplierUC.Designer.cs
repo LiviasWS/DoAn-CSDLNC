@@ -90,6 +90,7 @@
             this.textBox1.Size = new System.Drawing.Size(227, 22);
             this.textBox1.TabIndex = 15;
             this.textBox1.Text = "Nhập thông tin cần tìm..";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // dataGridView1
             // 

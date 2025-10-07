@@ -91,11 +91,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnlogout
             // 
-            this.btnlogout.Location = new System.Drawing.Point(1504, 841);
+            this.btnlogout.Location = new System.Drawing.Point(1785, 837);
             this.btnlogout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnlogout.Name = "btnlogout";
             this.btnlogout.Size = new System.Drawing.Size(127, 55);
@@ -472,8 +473,7 @@
             this.cboWarehouse.FormattingEnabled = true;
             this.cboWarehouse.Items.AddRange(new object[] {
             "Kho Chính",
-            "Kho Lạnh",
-            "Kho Bar"});
+            "Kho Lạnh"});
             this.cboWarehouse.Location = new System.Drawing.Point(257, 373);
             this.cboWarehouse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cboWarehouse.Name = "cboWarehouse";
@@ -607,7 +607,7 @@
             this.dgvProducts.Name = "dgvProducts";
             this.dgvProducts.RowHeadersWidth = 51;
             this.dgvProducts.RowTemplate.Height = 24;
-            this.dgvProducts.Size = new System.Drawing.Size(1076, 447);
+            this.dgvProducts.Size = new System.Drawing.Size(1357, 447);
             this.dgvProducts.TabIndex = 48;
             this.dgvProducts.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellContentClick_1);
             // 
@@ -617,7 +617,7 @@
             this.lbl_QLNL.BackColor = System.Drawing.Color.DarkGoldenrod;
             this.lbl_QLNL.Font = new System.Drawing.Font("Cambria", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_QLNL.ForeColor = System.Drawing.Color.White;
-            this.lbl_QLNL.Location = new System.Drawing.Point(916, 11);
+            this.lbl_QLNL.Location = new System.Drawing.Point(579, 10);
             this.lbl_QLNL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_QLNL.Name = "lbl_QLNL";
             this.lbl_QLNL.Size = new System.Drawing.Size(260, 52);
@@ -692,10 +692,11 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.DarkGoldenrod;
+            this.panel3.Controls.Add(this.lbl_QLNL);
             this.panel3.Location = new System.Drawing.Point(545, -1);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1104, 76);
+            this.panel3.Size = new System.Drawing.Size(1375, 76);
             this.panel3.TabIndex = 99;
             // 
             // btnHistory
@@ -714,9 +715,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
-            this.ClientSize = new System.Drawing.Size(1645, 910);
+            this.ClientSize = new System.Drawing.Size(1924, 910);
             this.Controls.Add(this.btnHistory);
-            this.Controls.Add(this.lbl_QLNL);
             this.Controls.Add(this.btnlogout);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnStockCount);
@@ -745,8 +745,9 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
