@@ -81,6 +81,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnHistory = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudLoss)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMin)).BeginInit();
@@ -619,9 +620,9 @@
             this.lbl_QLNL.Location = new System.Drawing.Point(916, 11);
             this.lbl_QLNL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_QLNL.Name = "lbl_QLNL";
-            this.lbl_QLNL.Size = new System.Drawing.Size(390, 52);
+            this.lbl_QLNL.Size = new System.Drawing.Size(260, 52);
             this.lbl_QLNL.TabIndex = 97;
-            this.lbl_QLNL.Text = "Quản lý nguyên liệu";
+            this.lbl_QLNL.Text = "Quản Lý Kho";
             // 
             // panel1
             // 
@@ -664,7 +665,7 @@
             this.panel1.Controls.Add(this.lblMax);
             this.panel1.Controls.Add(this.nudMax);
             this.panel1.Location = new System.Drawing.Point(-3, -1);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(551, 923);
             this.panel1.TabIndex = 98;
@@ -672,7 +673,7 @@
             // panel2
             // 
             this.panel2.Location = new System.Drawing.Point(559, 4);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1075, 123);
             this.panel2.TabIndex = 99;
@@ -681,7 +682,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(551, 185);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -692,10 +693,21 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.DarkGoldenrod;
             this.panel3.Location = new System.Drawing.Point(545, -1);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1104, 76);
             this.panel3.TabIndex = 99;
+            // 
+            // btnHistory
+            // 
+            this.btnHistory.Location = new System.Drawing.Point(1115, 640);
+            this.btnHistory.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnHistory.Name = "btnHistory";
+            this.btnHistory.Size = new System.Drawing.Size(132, 64);
+            this.btnHistory.TabIndex = 94;
+            this.btnHistory.Text = "Lịch sử";
+            this.btnHistory.UseVisualStyleBackColor = true;
+            this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
             // 
             // ProductManagementForm
             // 
@@ -703,6 +715,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1645, 910);
+            this.Controls.Add(this.btnHistory);
             this.Controls.Add(this.lbl_QLNL);
             this.Controls.Add(this.btnlogout);
             this.Controls.Add(this.btnClear);
@@ -791,5 +804,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button btnHistory;
     }
 }

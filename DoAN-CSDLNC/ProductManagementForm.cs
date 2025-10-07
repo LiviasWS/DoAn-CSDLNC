@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static DoAN_CSDLNC.DAL.NguyenLieuDAL;
 
 namespace DoAN_CSDLNC
 {
@@ -292,12 +293,25 @@ namespace DoAN_CSDLNC
             MessageBox.Show("Đã chuyển sang Kho Lạnh.");
         }
 
-        private void btnStockCount_Click(object sender, EventArgs e)
+        private readonly InventoryDAL _inventoryDAL = new InventoryDAL();
+
+        private async void btnStockCount_Click(object sender, EventArgs e)
         {
-            var items = _nguyenLieuBLL.GetAllNguyenLieus();
-            int total = items.Sum(x => x.MaxStock ?? 0);
-            MessageBox.Show("Tổng tồn kho: " + total);
+            var selected = GetSelected();
+            if (selected == null)
+            {
+                MessageBox.Show("Vui lòng chọn nguyên liệu để kiểm kê!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Gọi DAL để lấy tồn kho thật từ collection Inventory
+            long totalQty = await _inventoryDAL.GetTotalQtyByProductAsync(selected.Id);
+
+            string donVi = !string.IsNullOrEmpty(selected.UomAlt) ? selected.UomAlt : "đơn vị";
+            MessageBox.Show($"Nguyên liệu '{selected.Name}' hiện còn {totalQty} {donVi} trong kho.",
+                "Kết quả kiểm kê", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
 
         private void btnClear_Click(object sender, EventArgs e)
         {
@@ -467,6 +481,39 @@ namespace DoAN_CSDLNC
         }
 
         private void btnChooseImage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OpenFileDialog ofd = new OpenFileDialog())
+                {
+                    ofd.Title = "Chọn ảnh nguyên liệu";
+                    ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+                    ofd.Multiselect = false;
+
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        string selectedPath = ofd.FileName;
+
+                        // Hiển thị ảnh lên PictureBox
+                        picImage.Image = Image.FromFile(selectedPath);
+                        picImage.SizeMode = PictureBoxSizeMode.Zoom;
+
+                        // Nếu bạn muốn lưu đường dẫn để sau này dùng:
+                        picImage.Tag = selectedPath;
+
+                        // Nếu muốn hiển thị tên file:
+                        Console.WriteLine($"Đã chọn: {Path.GetFileName(selectedPath)}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi chọn ảnh: " + ex.Message);
+            }
+        }
+
+
+        private void btnHistory_Click(object sender, EventArgs e)
         {
 
         }

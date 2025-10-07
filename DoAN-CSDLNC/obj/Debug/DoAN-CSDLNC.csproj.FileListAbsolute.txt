@@ -55,7 +55,6 @@ D:\MonHocHK1Nam4\DoAnCSDLNangCao\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.O
 D:\MonHocHK1Nam4\DoAnCSDLNangCao\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.ProductUC.resources
 D:\MonHocHK1Nam4\DoAnCSDLNangCao\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.SupplierUC.resources
 G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN-CSDLNC.csproj.AssemblyReference.cache
-G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN-CSDLNC.exe.config
 G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.AddEmployee.resources
 G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.AddProduct.resources
 G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.AddSupplier.resources
@@ -114,3 +113,4 @@ G:\DoAn-CSDLNC\DoAN-CSDLNC\bin\Debug\System.Threading.Tasks.Extensions.xml
 G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN-CSD.99E0C015.Up2Date
 G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.StockInForm.resources
 G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN_CSDLNC.StockOutForm.resources
+G:\DoAn-CSDLNC\DoAN-CSDLNC\obj\Debug\DoAN-CSDLNC.exe.config

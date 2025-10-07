@@ -203,7 +203,9 @@
     <Compile Include="Manage.Designer.cs">
       <DependentUpon>Manage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\NguyenLieu.cs" />
+    <Compile Include="Models\StockHistory.cs" />
     <Compile Include="OrderUC.cs">
       <SubType>UserControl</SubType>
     </Compile>

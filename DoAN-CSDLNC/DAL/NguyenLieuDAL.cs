@@ -1,9 +1,10 @@
-﻿using Hethongbancafe.CafeManagement.Models;
+﻿using DoAN_CSDLNC.Data;
+using Hethongbancafe.CafeManagement.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using DoAN_CSDLNC.Data;
 
 namespace DoAN_CSDLNC.DAL
 {
@@ -40,6 +41,32 @@ namespace DoAN_CSDLNC.DAL
         public void DeleteNguyenLieu(string id)
         {
             _nguyenLieus.DeleteOne(n => n.Id == id);
+        }
+        public class InventoryDAL
+        {
+            private readonly IMongoCollection<Inventory> _inventory;
+
+            public InventoryDAL()
+            {
+                var db = new DBConnection();
+                _inventory = db.GetCollection<Inventory>("Inventory");
+            }
+
+            public async Task<long> GetTotalQtyByProductAsync(string productId)
+            {
+                var filter = Builders<Inventory>.Filter.Eq(x => x.ProductId, productId);
+                var list = await _inventory.Find(filter).ToListAsync();
+                return list.Sum(x => x.Quantity);
+            }
+
+            public async Task<List<(string BatchId, long Quantity)>> GetQtyPerBatchAsync(string productId)
+            {
+                var filter = Builders<Inventory>.Filter.Eq(x => x.ProductId, productId);
+                var list = await _inventory.Find(filter).ToListAsync();
+                return list.GroupBy(x => x.BatchId)
+                           .Select(g => (g.Key, g.Sum(z => z.Quantity)))
+                           .ToList();
+            }
         }
     }
 }
