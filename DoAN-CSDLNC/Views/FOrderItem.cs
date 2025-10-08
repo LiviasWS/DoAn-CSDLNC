@@ -83,15 +83,16 @@ namespace DoAN_CSDLNC.Views
                     Builders<Order>.Filter.Eq(o => o.Status, "in_progress")
                 );
             Order order = Orders.Find(orderFilter).FirstOrDefault();
-            OrderItem orderItem = new OrderItem() 
+            OrderItem orderItem = new OrderItem()
             {
                 OrderId = order.Id,
                 ProductId = product.Id,
                 Size = cbbSize.Text,
                 Quantity = (int)nudQuantity.Value,
-                Description = rtbDescription.Text
+                Description = rtbDescription.Text,
+                Toppings = new List<Topping>()
             };
-            foreach(UCTopping ucTopping in flpTopping.Controls)
+            foreach (UCTopping ucTopping in flpTopping.Controls)
             {
                 if(ucTopping.getQuantity() > 0)
                 {
@@ -115,6 +116,7 @@ namespace DoAN_CSDLNC.Views
                 CreatedAt = DateTime.Now
             };
             Orders.InsertOne(newOrder);
+            ConfigOrderItem();
             updateTableStatus("Occupied");
         }
 

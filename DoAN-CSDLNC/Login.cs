@@ -56,12 +56,12 @@ namespace DoAN_CSDLNC
                 }
                 else if (user.Role == "sell_staff")
                 {
-                    StaffForm staffForm = new StaffForm();
-                    staffForm.Show();
+                    FSaleMain fSaleMain = new FSaleMain();
+                    fSaleMain.Show();
                     this.Hide();
 
                     // khi form Staff đóng thì thoát app
-                    staffForm.FormClosed += (s, args) => Application.Exit();
+                    fSaleMain.FormClosed += (s, args) => Application.Exit();
                 }
                 else if (user.Role == "inventory_staff")
                 {

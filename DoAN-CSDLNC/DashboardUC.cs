@@ -24,11 +24,11 @@ namespace DoAN_CSDLNC
 
             this.AutoScroll = true;
 
-            orderCollection = db.GetCollection<Order>("orders");
-            orderItemCollection = db.GetCollection<OrderItem>("orderitems");
-            productCollection = db.GetCollection<Product>("products");
+            orderCollection = db.GetCollection<Order>("Orders");
+            orderItemCollection = db.GetCollection<OrderItem>("Order_Items");
+            productCollection = db.GetCollection<Product>("Products");
             employeeCollection = db.GetCollection<Employee>("employees");
-            paymentCollection = db.GetCollection<Payment>("payments");
+            paymentCollection = db.GetCollection<Payment>("Payments");
 
             cbRevenueFilter.Items.AddRange(new string[] { "Tuần", "Tháng", "Năm" });
             cbRevenueFilter.SelectedIndex = 0;
@@ -85,7 +85,19 @@ namespace DoAN_CSDLNC
 
             txtEmployeeCount.Text = employeeCollection.CountDocuments(FilterDefinition<Employee>.Empty).ToString();
             txtProductCount.Text = productCollection.CountDocuments(FilterDefinition<Product>.Empty).ToString();
-            txtStockCount.Text = "Chưa có cột kho"; // nếu có bảng kho thì sum quantity
+            
+            // === ĐẾM SỐ LƯỢNG MẶT HÀNG TRONG KHO ===
+            try
+            {
+                var inventoryCollection = db.GetCollection<NguyenLieu>("Nguyenlieu");
+                long inventoryCount = inventoryCollection.CountDocuments(FilterDefinition<NguyenLieu>.Empty);
+                txtStockCount.Text = inventoryCount.ToString("N0");
+            }
+            catch (Exception ex)
+            {
+                txtStockCount.Text = "Lỗi kho!";
+                MessageBox.Show("Không thể tải dữ liệu kho: " + ex.Message);
+            }
         }
 
         // === PHẦN 2: BIỂU ĐỒ DOANH THU ===
@@ -95,7 +107,7 @@ namespace DoAN_CSDLNC
             chartRevenue.ChartAreas[0].AxisX.Title = "Thời gian";
             chartRevenue.ChartAreas[0].AxisY.Title = "Doanh thu";
 
-            var orders = orderCollection.Find(o => o.Status == "paid").ToList();
+            var orders = orderCollection.Find(o => o.Status == "completed").ToList();
             var series = new Series("Doanh thu");
             series.ChartType = SeriesChartType.Column;
             series.IsValueShownAsLabel = true;

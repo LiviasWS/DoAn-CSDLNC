@@ -38,12 +38,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(170, 211);
+            this.radioButton2.Location = new System.Drawing.Point(170, 260);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(80, 20);
             this.radioButton2.TabIndex = 86;
@@ -54,7 +56,7 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(170, 175);
+            this.radioButton1.Location = new System.Drawing.Point(170, 224);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(82, 20);
             this.radioButton1.TabIndex = 85;
@@ -71,7 +73,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(223, 304);
+            this.button2.Location = new System.Drawing.Point(223, 353);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(86, 23);
             this.button2.TabIndex = 81;
@@ -81,7 +83,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(325, 304);
+            this.button1.Location = new System.Drawing.Point(325, 353);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(91, 23);
             this.button1.TabIndex = 80;
@@ -92,7 +94,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(40, 177);
+            this.label6.Location = new System.Drawing.Point(40, 226);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(39, 16);
             this.label6.TabIndex = 79;
@@ -128,7 +130,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(170, 250);
+            this.radioButton3.Location = new System.Drawing.Point(170, 299);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(111, 20);
             this.radioButton3.TabIndex = 87;
@@ -136,11 +138,29 @@
             this.radioButton3.Text = "Inventory Staff";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(170, 171);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(246, 22);
+            this.txtPassword.TabIndex = 89;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(37, 179);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(70, 16);
+            this.label5.TabIndex = 88;
+            this.label5.Text = "Password:";
+            // 
             // UpdateUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(477, 356);
+            this.ClientSize = new System.Drawing.Size(477, 407);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.radioButton3);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
@@ -170,5 +190,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Label label5;
     }
 }

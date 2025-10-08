@@ -23,8 +23,9 @@ namespace DoAN_CSDLNC
                 "manager",
                 "sell staff",
                 "inventory staff",
+                "barista",
                 "security guard",
-                "shipper"
+                "janitor"
             });
 
             _employee = emp;

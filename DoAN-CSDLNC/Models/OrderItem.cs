@@ -14,15 +14,24 @@ namespace DoAN_CSDLNC.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
+        [BsonElement("order_id")]
         [BsonRepresentation(BsonType.ObjectId)]
+        public string OrderId { get; set; }
+
         [BsonElement("product_id")]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string ProductId { get; set; }
+
+        [BsonElement("size")]
+        public string Size { get; set; }
 
         [BsonElement("quantity")]
         public int Quantity { get; set; }
 
-        [BsonRepresentation(BsonType.ObjectId)]
-        [BsonElement("reference_order_item")]
-        public string ReferenceOrderItem { get; set; }
+        [BsonElement("description")]
+        public string Description { get; set; }
+
+        [BsonElement("toppings")]
+        public List<Topping> Toppings { get; set; }
     }
 }

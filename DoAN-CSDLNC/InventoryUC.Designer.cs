@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.label2 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvInventory = new System.Windows.Forms.DataGridView();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.comboBoxSearchField = new System.Windows.Forms.ComboBox();
+            this.cbSearchCriteria = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -46,32 +46,33 @@
             this.label2.TabIndex = 20;
             this.label2.Text = "KHO HÀNG";
             // 
-            // dataGridView1
+            // dgvInventory
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 99);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(886, 433);
-            this.dataGridView1.TabIndex = 14;
+            this.dgvInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInventory.Location = new System.Drawing.Point(3, 99);
+            this.dgvInventory.Name = "dgvInventory";
+            this.dgvInventory.RowHeadersWidth = 51;
+            this.dgvInventory.RowTemplate.Height = 24;
+            this.dgvInventory.Size = new System.Drawing.Size(1484, 433);
+            this.dgvInventory.TabIndex = 14;
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(503, 49);
+            this.btnSearch.Location = new System.Drawing.Point(557, 49);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(73, 23);
             this.btnSearch.TabIndex = 24;
             this.btnSearch.Text = "Tìm";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
-            // comboBoxSearchField
+            // cbSearchCriteria
             // 
-            this.comboBoxSearchField.FormattingEnabled = true;
-            this.comboBoxSearchField.Location = new System.Drawing.Point(171, 50);
-            this.comboBoxSearchField.Name = "comboBoxSearchField";
-            this.comboBoxSearchField.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxSearchField.TabIndex = 23;
+            this.cbSearchCriteria.FormattingEnabled = true;
+            this.cbSearchCriteria.Location = new System.Drawing.Point(188, 50);
+            this.cbSearchCriteria.Name = "cbSearchCriteria";
+            this.cbSearchCriteria.Size = new System.Drawing.Size(157, 24);
+            this.cbSearchCriteria.TabIndex = 23;
             // 
             // label1
             // 
@@ -84,7 +85,7 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(298, 50);
+            this.txtSearch.Location = new System.Drawing.Point(351, 50);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(199, 22);
             this.txtSearch.TabIndex = 21;
@@ -94,14 +95,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.comboBoxSearchField);
+            this.Controls.Add(this.cbSearchCriteria);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvInventory);
             this.Name = "InventoryUC";
-            this.Size = new System.Drawing.Size(892, 538);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Size = new System.Drawing.Size(1490, 538);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,9 +111,9 @@
         #endregion
 
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvInventory;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.ComboBox comboBoxSearchField;
+        private System.Windows.Forms.ComboBox cbSearchCriteria;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtSearch;
     }

@@ -1,5 +1,6 @@
 ﻿using DoAN_CSDLNC.Data;
 using DoAN_CSDLNC.Models;
+using DoAN_CSDLNC.Views;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,16 @@ namespace DoAN_CSDLNC
 
         private void msiHome_Click(object sender, EventArgs e)
         {
+            pConainer.Controls.Clear();
+            UCTableDashboard uCTableDashboard = new UCTableDashboard();
+            pConainer.Controls.Add(uCTableDashboard);
+        }
 
+        private void dashboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pConainer.Controls.Clear();
+            UCTableReserveDashBoard uCTableReserveDashBoard = new UCTableReserveDashBoard();
+            pConainer.Controls.Add(uCTableReserveDashBoard);
         }
     }
 }

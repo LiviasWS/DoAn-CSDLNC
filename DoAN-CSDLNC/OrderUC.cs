@@ -19,11 +19,11 @@ namespace DoAN_CSDLNC
             try
             {
                 var db = new DBConnection();
-                var orderCollection = db.GetCollection<Order>("orders");
-                var paymentCollection = db.GetCollection<Payment>("payments");
+                var orderCollection = db.GetCollection<Order>("Orders");
+                var paymentCollection = db.GetCollection<Payment>("Payments");
 
                 // Lấy các đơn đã thanh toán
-                var orders = orderCollection.Find(o => o.Status == "paid").ToList();
+                var orders = orderCollection.Find(o => o.Status == "completed").ToList();
 
                 // Lấy tất cả payment
                 var payments = paymentCollection.Find(_ => true).ToList();
@@ -49,7 +49,7 @@ namespace DoAN_CSDLNC
 
                 foreach (var order in orders)
                 {
-                    dt.Rows.Add(order.Id, order.TableId, order.CustomerId, order.EmployeeId,
+                    dt.Rows.Add(order.Id, order.TableId,
                                 order.Status, order.TotalAmount, order.CreatedAt, order.PaymentMethod);
                 }
 

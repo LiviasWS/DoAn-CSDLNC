@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DoAN_CSDLNC.Data;
+using DoAN_CSDLNC.Models;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,32 +15,63 @@ namespace DoAN_CSDLNC
 {
     public partial class UCTableDashboard : UserControl
     {
+        private DBConnection connection = new DBConnection();
+        private IMongoCollection<Table> Tables;
+        private IMongoCollection<TableReserve> TableReserves;
         private UIHelper helper = new UIHelper();
         public UCTableDashboard()
         {
+            Tables = connection.GetCollection<Table>("Tables");
+            TableReserves = connection.GetCollection<TableReserve>("Table_Reserves");
             InitializeComponent();
         }
 
         private void UCTableDashboard_Load(object sender, EventArgs e)
         {
-            helper.MakeRoundedPanel(pFunction, 50);
-            flpTableList.Controls.Clear();
-            UCTable uc1 = new UCTable("Table 1", "Free");
-            flpTableList.Controls.Add(uc1);
-            UCTable uc2 = new UCTable("Table 2", "Occupied");
-            flpTableList.Controls.Add(uc2);
-            UCTable uc3 = new UCTable("Table 3", "Free");
-            flpTableList.Controls.Add(uc3);
-            UCTable uc4 = new UCTable("Table 4", "Free");
-            flpTableList.Controls.Add(uc4);
-            UCTable uc5 = new UCTable("Table 5", "Occupied");
-            flpTableList.Controls.Add(uc5);
-            UCTable uc6 = new UCTable("Table 6", "Free");
-            flpTableList.Controls.Add(uc6);
-            UCTable uc7 = new UCTable("Table 7", "Reserved");
-            flpTableList.Controls.Add(uc7);
-            UCTable uc8 = new UCTable("Table 8", "Free");
-            flpTableList.Controls.Add(uc8);
+            ReLoad();
+        }
+
+        private void ReLoad()
+        {
+            var filter = Builders<Table>.Filter.Empty;
+            List<Table> tables = Tables.Find(filter).ToList();
+            foreach (Table table in tables)
+            {
+                var reservefilter = Builders<TableReserve>.Filter.And
+                    (
+                        Builders<TableReserve>.Filter.Eq(o => o.Table.Id, table.Id),
+                        Builders<TableReserve>.Filter.Eq(o => o.Status, "incomplete")
+                    );
+                List<TableReserve> tableReserves = TableReserves.Find(reservefilter).ToList();
+                foreach(TableReserve reserve in tableReserves)
+                {
+                    if(reserve.End < DateTime.Now && reserve.Status == "incomplete")
+                    {
+                        updateReserveStatus(reserve, "cancel");
+                    }
+                }
+                TableReserve tableReserve = tableReserves.FirstOrDefault(o => o.Start <= DateTime.Now && DateTime.Now <= o.End);
+                if (table.Status == "Free" && tableReserve != null)
+                    updateTableStatus(table, "Reserved");
+                if(table.Status == "Reserved" && tableReserve == null)
+                    updateTableStatus(table, "Free");
+                UCTable uCTable = new UCTable(table);
+                flpTableList.Controls.Add(uCTable);
+            }
+        }
+
+        private void updateTableStatus(Table table, string status)
+        {
+            var filter = Builders<Table>.Filter.Eq(o => o.Id, table.Id);
+            var update = Builders<Table>.Update.Set(o => o.Status, status);
+            Tables.UpdateOne(filter, update);
+        }
+
+        private void updateReserveStatus(TableReserve tableReserve, string status)
+        {
+            var filter = Builders<TableReserve>.Filter.Eq(o => o.Id, tableReserve.Id);
+            var update = Builders<TableReserve>.Update.Set(o => o.Status, status);
+            TableReserves.UpdateOne(filter, update);
         }
 
     }

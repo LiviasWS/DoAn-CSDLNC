@@ -46,15 +46,41 @@ namespace DoAN_CSDLNC
                     Name = txtTenSP.Text.Trim(),
                     Category = txtLoaiSP.Text.Trim(),
                     Image = "",
-                    IsActive = true // mặc định còn bán
+                    IsActive = true
                 };
 
                 productCollection.InsertOne(p);
 
-                // Lưu các size nếu hợp lệ
-                SaveSizeIfValid(p.Id, "S", txtSizeS.Text);
-                SaveSizeIfValid(p.Id, "M", txtSizeM.Text);
-                SaveSizeIfValid(p.Id, "L", txtSizeL.Text);
+                // Nếu là Topping → chỉ lưu size S
+                if (p.Category.Equals("Topping", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Nếu người dùng nhập giá M hoặc L thì báo lỗi
+                    if (!string.IsNullOrWhiteSpace(txtSizeM.Text) || !string.IsNullOrWhiteSpace(txtSizeL.Text))
+                    {
+                        MessageBox.Show("Topping chỉ được phép có giá ở size S, vui lòng xóa giá size M và L!");
+                        // Xóa sản phẩm vừa thêm vì không hợp lệ
+                        productCollection.DeleteOne(x => x.Id == p.Id);
+                        return;
+                    }
+
+                    // Nếu chưa nhập size S thì báo lỗi
+                    if (string.IsNullOrWhiteSpace(txtSizeS.Text))
+                    {
+                        MessageBox.Show("Topping bắt buộc phải nhập giá ở size S!");
+                        productCollection.DeleteOne(x => x.Id == p.Id);
+                        return;
+                    }
+
+                    // Lưu giá topping (size S mặc định)
+                    SaveSizeIfValid(p.Id, "S", txtSizeS.Text);
+                }
+                else
+                {
+                    // Trường hợp nước → có 3 size
+                    SaveSizeIfValid(p.Id, "S", txtSizeS.Text);
+                    SaveSizeIfValid(p.Id, "M", txtSizeM.Text);
+                    SaveSizeIfValid(p.Id, "L", txtSizeL.Text);
+                }
 
                 MessageBox.Show("Thêm sản phẩm thành công!");
                 this.Close();
@@ -98,9 +124,31 @@ namespace DoAN_CSDLNC
 
                 productCollection.InsertOne(p);
 
-                SaveSizeIfValid(p.Id, "S", txtSizeS.Text);
-                SaveSizeIfValid(p.Id, "M", txtSizeM.Text);
-                SaveSizeIfValid(p.Id, "L", txtSizeL.Text);
+                // Topping chỉ có size S
+                if (p.Category.Equals("Topping", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (!string.IsNullOrWhiteSpace(txtSizeM.Text) || !string.IsNullOrWhiteSpace(txtSizeL.Text))
+                    {
+                        MessageBox.Show("Topping chỉ được phép có giá ở size S, vui lòng xóa giá size M và L!");
+                        productCollection.DeleteOne(x => x.Id == p.Id);
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(txtSizeS.Text))
+                    {
+                        MessageBox.Show("Topping bắt buộc phải nhập giá ở size S!");
+                        productCollection.DeleteOne(x => x.Id == p.Id);
+                        return;
+                    }
+
+                    SaveSizeIfValid(p.Id, "S", txtSizeS.Text);
+                }
+                else
+                {
+                    SaveSizeIfValid(p.Id, "S", txtSizeS.Text);
+                    SaveSizeIfValid(p.Id, "M", txtSizeM.Text);
+                    SaveSizeIfValid(p.Id, "L", txtSizeL.Text);
+                }
 
                 MessageBox.Show("Đã thêm sản phẩm! Mời nhập sản phẩm mới...");
 
@@ -118,7 +166,6 @@ namespace DoAN_CSDLNC
             }
         }
 
-        // Hàm lưu size hợp lệ
         private void SaveSizeIfValid(string productId, string size, string priceText)
         {
             if (int.TryParse(priceText, out int price))
@@ -132,7 +179,6 @@ namespace DoAN_CSDLNC
             }
         }
 
-        // Hàm kiểm tra hợp lệ trước khi lưu
         private bool ValidateInput()
         {
             if (string.IsNullOrWhiteSpace(txtMaSP.Text) ||
@@ -143,7 +189,7 @@ namespace DoAN_CSDLNC
                 return false;
             }
 
-            // Kiểm tra các ô giá (nếu có nhập thì phải là số)
+            // Kiểm tra các ô giá phải là số nguyên
             if (!string.IsNullOrWhiteSpace(txtSizeS.Text) && !int.TryParse(txtSizeS.Text, out _))
             {
                 MessageBox.Show("Giá size S phải là số nguyên!");

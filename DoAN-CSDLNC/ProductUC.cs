@@ -18,12 +18,14 @@ namespace DoAN_CSDLNC
         {
             InitializeComponent();
             db = new DBConnection();
-            productCollection = db.GetCollection<Product>("products");
-            sizeCollection = db.GetCollection<SizeManage>("sizemanage");
+            productCollection = db.GetCollection<Product>("Products");
+            sizeCollection = db.GetCollection<SizeManage>("Size_Manages");
 
             // Thiết lập combo tìm kiếm
             cbSearchBy.Items.AddRange(new string[] { "Mã sản phẩm", "Tên sản phẩm", "Loại sản phẩm" });
             cbSearchBy.SelectedIndex = 0;
+
+            cbSearchBy.DropDownStyle = ComboBoxStyle.DropDownList;
 
             LoadProducts();
         }

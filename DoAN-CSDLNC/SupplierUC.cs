@@ -19,6 +19,8 @@ namespace DoAN_CSDLNC
             comboBoxSearchField.Items.AddRange(new string[] { "Name", "Phone" });
             comboBoxSearchField.SelectedIndex = 0;
 
+            comboBoxSearchField.DropDownStyle = ComboBoxStyle.DropDownList;
+
             LoadSuppliers();
         }
 

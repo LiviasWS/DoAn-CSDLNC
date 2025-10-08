@@ -30,8 +30,8 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.msiHome = new System.Windows.Forms.ToolStripMenuItem();
-            this.pConainer = new System.Windows.Forms.Panel();
             this.dashboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pConainer = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,9 +53,17 @@
             // 
             this.msiHome.ForeColor = System.Drawing.Color.White;
             this.msiHome.Name = "msiHome";
-            this.msiHome.Size = new System.Drawing.Size(82, 32);
-            this.msiHome.Text = "Home";
+            this.msiHome.Size = new System.Drawing.Size(76, 32);
+            this.msiHome.Text = "Table";
             this.msiHome.Click += new System.EventHandler(this.msiHome_Click);
+            // 
+            // dashboardToolStripMenuItem
+            // 
+            this.dashboardToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.dashboardToolStripMenuItem.Name = "dashboardToolStripMenuItem";
+            this.dashboardToolStripMenuItem.Size = new System.Drawing.Size(101, 32);
+            this.dashboardToolStripMenuItem.Text = "Reserve";
+            this.dashboardToolStripMenuItem.Click += new System.EventHandler(this.dashboardToolStripMenuItem_Click);
             // 
             // pConainer
             // 
@@ -63,13 +71,6 @@
             this.pConainer.Name = "pConainer";
             this.pConainer.Size = new System.Drawing.Size(1924, 802);
             this.pConainer.TabIndex = 1;
-            // 
-            // dashboardToolStripMenuItem
-            // 
-            this.dashboardToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.dashboardToolStripMenuItem.Name = "dashboardToolStripMenuItem";
-            this.dashboardToolStripMenuItem.Size = new System.Drawing.Size(128, 32);
-            this.dashboardToolStripMenuItem.Text = "Dashboard";
             // 
             // FSaleMain
             // 

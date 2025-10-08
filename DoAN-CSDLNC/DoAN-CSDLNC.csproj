@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,11 +35,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.7.100.14\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.SecurityToken, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.SecurityToken.3.7.100.14\lib\net45\AWSSDK.SecurityToken.dll</HintPath>
+    </Reference>
     <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt.Net-Next.4.0.3\lib\net472\BCrypt.Net-Next.dll</HintPath>
     </Reference>
     <Reference Include="DnsClient, Version=1.6.1.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.6.1\lib\net471\DnsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET-Q16-AnyCPU, Version=14.8.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.14.8.2\lib\netstandard20\Magick.NET-Q16-AnyCPU.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET.Core, Version=14.8.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET.Core.14.8.2\lib\netstandard20\Magick.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -53,6 +67,12 @@
     </Reference>
     <Reference Include="MongoDB.Driver, Version=3.5.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Driver.3.5.0\lib\net472\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.30.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.30.0\lib\net472\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Libmongocrypt, Version=1.12.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Libmongocrypt.1.12.0\lib\net472\MongoDB.Libmongocrypt.dll</HintPath>
     </Reference>
     <Reference Include="SharpCompress, Version=0.30.1.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.30.1\lib\net461\SharpCompress.dll</HintPath>
@@ -212,12 +232,14 @@
     </Compile>
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\NguyenLieu.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\SizeManage.cs" />
     <Compile Include="Models\Table.cs" />
+    <Compile Include="Models\TableReserve.cs" />
     <Compile Include="Models\Topping.cs" />
     <Compile Include="OrderUC.cs">
       <SubType>UserControl</SubType>
@@ -248,6 +270,7 @@
     <Compile Include="SupplierUC.Designer.cs">
       <DependentUpon>SupplierUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIHelper.cs" />
     <Compile Include="UpdateEmployee.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -278,6 +301,102 @@
     </Compile>
     <Compile Include="UserUC.Designer.cs">
       <DependentUpon>UserUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FOrderItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FOrderItem.Designer.cs">
+      <DependentUpon>FOrderItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FPayment.Designer.cs">
+      <DependentUpon>FPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FProductList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FProductList.Designer.cs">
+      <DependentUpon>FProductList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FSaleMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FSaleMain.Designer.cs">
+      <DependentUpon>FSaleMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FTableDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FTableDetail.Designer.cs">
+      <DependentUpon>FTableDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCCategoryLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCCategoryLabel.Designer.cs">
+      <DependentUpon>UCCategoryLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCOrderItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCOrderItem.Designer.cs">
+      <DependentUpon>UCOrderItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCOrderItemDescription.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCOrderItemDescription.Designer.cs">
+      <DependentUpon>UCOrderItemDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCOrderItemFreeTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCOrderItemFreeTable.Designer.cs">
+      <DependentUpon>UCOrderItemFreeTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCOrderItemReserveTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCOrderItemReserveTable.Designer.cs">
+      <DependentUpon>UCOrderItemReserveTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCProduct.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCProduct.Designer.cs">
+      <DependentUpon>UCProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCTable.Designer.cs">
+      <DependentUpon>UCTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCTableDashboard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCTableDashboard.Designer.cs">
+      <DependentUpon>UCTableDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCTableReserve.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCTableReserve.Designer.cs">
+      <DependentUpon>UCTableReserve.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCTableReserveDashBoard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCTableReserveDashBoard.Designer.cs">
+      <DependentUpon>UCTableReserveDashBoard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCTopping.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCTopping.Designer.cs">
+      <DependentUpon>UCTopping.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AddEmployee.resx">
       <DependentUpon>AddEmployee.cs</DependentUpon>
@@ -345,6 +464,56 @@
     <EmbeddedResource Include="UserUC.resx">
       <DependentUpon>UserUC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\FOrderItem.resx">
+      <DependentUpon>FOrderItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FPayment.resx">
+      <DependentUpon>FPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FProductList.resx">
+      <DependentUpon>FProductList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FSaleMain.resx">
+      <DependentUpon>FSaleMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FTableDetail.resx">
+      <DependentUpon>FTableDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCCategoryLabel.resx">
+      <DependentUpon>UCCategoryLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCOrderItem.resx">
+      <DependentUpon>UCOrderItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCOrderItemDescription.resx">
+      <DependentUpon>UCOrderItemDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCOrderItemFreeTable.resx">
+      <DependentUpon>UCOrderItemFreeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCOrderItemReserveTable.resx">
+      <DependentUpon>UCOrderItemReserveTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCProduct.resx">
+      <DependentUpon>UCProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCTable.resx">
+      <DependentUpon>UCTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCTableDashboard.resx">
+      <DependentUpon>UCTableDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCTableReserve.resx">
+      <DependentUpon>UCTableReserve.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCTableReserveDashBoard.resx">
+      <DependentUpon>UCTableReserveDashBoard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCTopping.resx">
+      <DependentUpon>UCTopping.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="libmongocrypt.dylib" />
+    <None Include="libmongocrypt.so" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -360,11 +529,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\" />
+    <Analyzer Include="..\packages\AWSSDK.SecurityToken.3.7.100.14\analyzers\dotnet\cs\AWSSDK.SecurityToken.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\login.png" />
     <Content Include="Models\pexels-bluerhinomedia-2788792.jpg" />
+    <Content Include="mongocrypt.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets'))" />
+    <Error Condition="!Exists('..\packages\Magick.NET-Q16-AnyCPU.14.8.2\build\netstandard20\Magick.NET-Q16-AnyCPU.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Magick.NET-Q16-AnyCPU.14.8.2\build\netstandard20\Magick.NET-Q16-AnyCPU.targets'))" />
+  </Target>
+  <Import Project="..\packages\Magick.NET-Q16-AnyCPU.14.8.2\build\netstandard20\Magick.NET-Q16-AnyCPU.targets" Condition="Exists('..\packages\Magick.NET-Q16-AnyCPU.14.8.2\build\netstandard20\Magick.NET-Q16-AnyCPU.targets')" />
 </Project>

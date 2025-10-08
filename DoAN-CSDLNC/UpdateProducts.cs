@@ -18,8 +18,8 @@ namespace DoAN_CSDLNC
         {
             InitializeComponent();
             db = new DBConnection();
-            productCollection = db.GetCollection<Product>("products");
-            sizeCollection = db.GetCollection<SizeManage>("sizemanage");
+            productCollection = db.GetCollection<Product>("Products");
+            sizeCollection = db.GetCollection<SizeManage>("Size_Manages");
             productId = id;
             LoadData();
         }
