@@ -1,4 +1,6 @@
-﻿namespace DoAN_CSDLNC
+﻿using System.Windows.Forms;
+
+namespace DoAN_CSDLNC
 {
     partial class ProductManagementForm
     {
@@ -65,7 +67,6 @@
             this.lblUomBase = new System.Windows.Forms.Label();
             this.cboWarehouse = new System.Windows.Forms.ComboBox();
             this.lblWarehouse = new System.Windows.Forms.Label();
-            this.cboSupplier = new System.Windows.Forms.ComboBox();
             this.lblSupplier = new System.Windows.Forms.Label();
             this.cboGroup = new System.Windows.Forms.ComboBox();
             this.lblGroup = new System.Windows.Forms.Label();
@@ -82,6 +83,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnHistory = new System.Windows.Forms.Button();
+            this.cboSupplier = new System.Windows.Forms.ComboBox();
+            this.cboSupplier.SelectedIndexChanged += new System.EventHandler(this.cboSupplier_SelectedIndexChanged);
             ((System.ComponentModel.ISupportInitialize)(this.nudLoss)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMin)).BeginInit();
@@ -491,16 +494,6 @@
             this.lblWarehouse.TabIndex = 59;
             this.lblWarehouse.Text = "Kho:";
             // 
-            // cboSupplier
-            // 
-            this.cboSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboSupplier.FormattingEnabled = true;
-            this.cboSupplier.Location = new System.Drawing.Point(257, 334);
-            this.cboSupplier.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cboSupplier.Name = "cboSupplier";
-            this.cboSupplier.Size = new System.Drawing.Size(180, 24);
-            this.cboSupplier.TabIndex = 58;
-            // 
             // lblSupplier
             // 
             this.lblSupplier.AutoSize = true;
@@ -710,6 +703,17 @@
             this.btnHistory.UseVisualStyleBackColor = true;
             this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
             // 
+            // cboSupplier
+            // 
+            this.cboSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSupplier.FormattingEnabled = true;
+            this.cboSupplier.Location = new System.Drawing.Point(257, 334);
+            this.cboSupplier.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cboSupplier.Name = "cboSupplier";
+            this.cboSupplier.Size = new System.Drawing.Size(180, 24);
+            this.cboSupplier.TabIndex = 58;
+            this.cboSupplier.SelectedIndexChanged += new System.EventHandler(this.cboSupplier_SelectedIndexChanged);
+            // 
             // ProductManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -789,7 +793,6 @@
         private System.Windows.Forms.Label lblUomBase;
         private System.Windows.Forms.ComboBox cboWarehouse;
         private System.Windows.Forms.Label lblWarehouse;
-        private System.Windows.Forms.ComboBox cboSupplier;
         private System.Windows.Forms.Label lblSupplier;
         private System.Windows.Forms.ComboBox cboGroup;
         private System.Windows.Forms.Label lblGroup;
@@ -806,5 +809,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btnHistory;
+        private ComboBox cboSupplier;
     }
 }

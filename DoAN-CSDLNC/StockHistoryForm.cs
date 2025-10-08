@@ -70,8 +70,7 @@ namespace DoAN_CSDLNC
             var result = _dal.Filter(sku, user, action, fromUtc, toUtc);
             LoadGrid(result);
         }
-
-        private void btnClose_Click(object sender, EventArgs e)
+        private void btnClose_Click_1(object sender, EventArgs e)
         {
             this.Close();
         }

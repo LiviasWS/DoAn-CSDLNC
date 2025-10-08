@@ -23,6 +23,7 @@ namespace DoAN_CSDLNC
             InitializeComponent();
             _nguyenLieuBLL = new NguyenLieuBLL();
             LoadData();
+            LoadSuppliersToCombo();
         }
 
         private void LoadData()
@@ -68,13 +69,17 @@ namespace DoAN_CSDLNC
                 ExpDate = dtpExp.Checked ? (DateTime?)dtpExp.Value : null,
                 Fefo = chkFEFO.Checked,
                 LossPercent = (double?)nudLoss.Value,
-                Note = txtNote.Text
+                Note = txtNote.Text,
+
+                // >>> Lưu đường dẫn ảnh
+                ImagePath = picImage.Tag as string,
             };
         }
 
         private void FillForm(NguyenLieu nl)
         {
             if (nl == null) return;
+
             txtSKU.Text = nl.SKU;
             txtName.Text = nl.Name;
             cboGroup.Text = nl.Group;
@@ -82,18 +87,26 @@ namespace DoAN_CSDLNC
             cboWarehouse.Text = nl.Warehouse;
             txtUomBase.Text = nl.UomBase;
             txtUomAlt.Text = nl.UomAlt;
+
             nudConv.Value = (decimal)(nl.ConversionRate ?? 0);
             nudPriceIn.Value = (nl.PriceIn ?? 0);
             nudMin.Value = (decimal)(nl.MinStock ?? 0);
             nudMax.Value = (decimal)(nl.MaxStock ?? 0);
+
             txtBatch.Text = nl.Batch;
+
             dtpMfg.Checked = nl.MfgDate.HasValue;
             if (nl.MfgDate.HasValue) dtpMfg.Value = nl.MfgDate.Value;
+
             dtpExp.Checked = nl.ExpDate.HasValue;
             if (nl.ExpDate.HasValue) dtpExp.Value = nl.ExpDate.Value;
+
             chkFEFO.Checked = nl.Fefo ?? false;
             nudLoss.Value = (decimal)(nl.LossPercent ?? 0);
             txtNote.Text = nl.Note;
+
+            // >>> Hiển thị ảnh theo sản phẩm
+            ShowImage(nl.ImagePath);
         }
 
         private void ClearForm()
@@ -115,6 +128,9 @@ namespace DoAN_CSDLNC
             chkFEFO.Checked = false;
             nudLoss.Value = 0;
             txtNote.Clear();
+
+            // >>> Xóa ảnh hiển thị
+            ShowImage(null);
         }
 
         // ================== BUTTON HANDLERS ==================
@@ -347,7 +363,7 @@ namespace DoAN_CSDLNC
         private void dgvProducts_SelectionChanged(object sender, EventArgs e)
         {
             var nl = GetSelected();
-            if (nl != null) FillForm(nl);
+            if (nl != null) FillForm(nl);   // FillForm sẽ tự ShowImage(nl.ImagePath)
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -422,7 +438,15 @@ namespace DoAN_CSDLNC
 
         private void ProductManagementForm_Load(object sender, EventArgs e)
         {
+            // Khi form load, gọi hàm để nạp danh sách NCC
+            LoadSuppliersToCombo();
+        }
 
+        private void LoadSuppliersToCombo()
+        {
+            cboSupplier.DataSource = null;
+            cboSupplier.DataSource = supplierList;
+            cboSupplier.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void dgvProducts_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
@@ -517,17 +541,21 @@ namespace DoAN_CSDLNC
 
                     if (ofd.ShowDialog() == DialogResult.OK)
                     {
-                        string selectedPath = ofd.FileName;
+                        string imgDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
+                        Directory.CreateDirectory(imgDir);
 
-                        // Hiển thị ảnh lên PictureBox
-                        picImage.Image = Image.FromFile(selectedPath);
-                        picImage.SizeMode = PictureBoxSizeMode.Zoom;
+                        string sku = string.IsNullOrWhiteSpace(txtSKU.Text)
+                                     ? Guid.NewGuid().ToString("N")
+                                     : txtSKU.Text.Trim();
 
-                        // Nếu bạn muốn lưu đường dẫn để sau này dùng:
-                        picImage.Tag = selectedPath;
+                        string ext = Path.GetExtension(ofd.FileName);
+                        string destPath = Path.Combine(imgDir, $"{sku}{ext}");
 
-                        // Nếu muốn hiển thị tên file:
-                        Console.WriteLine($"Đã chọn: {Path.GetFileName(selectedPath)}");
+                        File.Copy(ofd.FileName, destPath, true);
+
+                        // hiển thị ảnh ngay lập tức
+                        ShowImage(destPath);
+                        MessageBox.Show("Ảnh đã copy: " + destPath);
                     }
                 }
             }
@@ -536,6 +564,43 @@ namespace DoAN_CSDLNC
                 MessageBox.Show("Lỗi chọn ảnh: " + ex.Message);
             }
         }
+
+
+        private void ShowImage(string path)
+        {
+            try
+            {
+                if (picImage.Image != null)
+                {
+                    picImage.Image.Dispose();
+                    picImage.Image = null;
+                }
+
+                if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+                {
+                    picImage.Tag = null;
+                    return;
+                }
+
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var img = Image.FromStream(fs))
+                {
+                    picImage.Image = (Image)img.Clone();
+                }
+
+                picImage.SizeMode = PictureBoxSizeMode.Zoom;
+                picImage.Tag = path;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi hiển thị ảnh: " + ex.Message);
+                picImage.Image = null;
+                picImage.Tag = null;
+            }
+        }
+
+
+
 
         private readonly StockHistoryDAL _historyDal = new StockHistoryDAL();
 
@@ -569,6 +634,56 @@ namespace DoAN_CSDLNC
             using (var f = new StockHistoryForm())
             {
                 f.ShowDialog(this);
+            }
+        }
+
+        private readonly List<string> supplierList = new List<string>
+        {
+            "Vinamilk",
+            "TH True Milk",
+            "Trung Nguyên",
+            "Highlands Coffee",
+            "An Phát Plastic",
+            "Nhựa Minh Tâm",
+            "Bao Bì Xanh",
+            "Green Pack",
+            "The Coffee House",
+               "Nestlé"
+        };
+
+
+
+        private void cboSupplier_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Bỏ qua khi form đang load dữ liệu (không phải thao tác người dùng)
+                if (dgvProducts.CurrentRow == null || cboSupplier.SelectedItem == null)
+                    return;
+
+                var selected = GetSelected();
+                if (selected == null) return;
+
+                string newSupplier = cboSupplier.SelectedItem.ToString();
+
+                // Nếu trùng với giá trị cũ thì không cần làm gì
+                if (selected.Supplier == newSupplier) return;
+
+                string oldSupplier = selected.Supplier;
+
+                // Cập nhật vào DB
+                selected.Supplier = newSupplier;
+                _nguyenLieuBLL.UpdateNguyenLieu(selected.Id, selected);
+
+                // Ghi lịch sử
+                LogHistory(selected, "UPDATE", 0, selected.MaxStock ?? 0, selected.MaxStock ?? 0,
+                    $"Đổi nhà cung cấp từ '{oldSupplier}' sang '{newSupplier}'");
+
+                MessageBox.Show($"✅ Đã đổi nhà cung cấp sang: {newSupplier}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi đổi nhà cung cấp: " + ex.Message);
             }
         }
     }

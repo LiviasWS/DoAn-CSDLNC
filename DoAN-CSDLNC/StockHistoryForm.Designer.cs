@@ -53,7 +53,7 @@
             this.dgvHistory.Name = "dgvHistory";
             this.dgvHistory.RowHeadersWidth = 51;
             this.dgvHistory.RowTemplate.Height = 24;
-            this.dgvHistory.Size = new System.Drawing.Size(571, 310);
+            this.dgvHistory.Size = new System.Drawing.Size(1004, 310);
             this.dgvHistory.TabIndex = 0;
             // 
             // contextMenuStrip1
@@ -100,7 +100,7 @@
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(114, 313);
+            this.btnFilter.Location = new System.Drawing.Point(114, 301);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(75, 23);
             this.btnFilter.TabIndex = 7;
@@ -109,12 +109,13 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(859, 512);
+            this.btnClose.Location = new System.Drawing.Point(1308, 345);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 8;
             this.btnClose.Text = "Đóng";
             this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click_1);
             // 
             // txt_Sku
             // 
@@ -165,7 +166,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(962, 558);
+            this.ClientSize = new System.Drawing.Size(1395, 380);
             this.Controls.Add(this.txt_To);
             this.Controls.Add(this.txt_From);
             this.Controls.Add(this.txt_Action);
