@@ -186,12 +186,15 @@
     <Compile Include="AddUser.Designer.cs">
       <DependentUpon>AddUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="BLL\NguyenLieuBLL.cs" />
     <Compile Include="ChangePassUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ChangePassUC.Designer.cs">
       <DependentUpon>ChangePassUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\NguyenLieuDAL.cs" />
+    <Compile Include="DAL\StockHistoryDAL.cs" />
     <Compile Include="DashboardUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -205,6 +208,12 @@
     </Compile>
     <Compile Include="EmployeeUC.Designer.cs">
       <DependentUpon>EmployeeUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InputNumberForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputNumberForm.Designer.cs">
+      <DependentUpon>InputNumberForm.cs</DependentUpon>
     </Compile>
     <Compile Include="InventoryRecorddUC.cs">
       <SubType>UserControl</SubType>
@@ -232,12 +241,14 @@
     </Compile>
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\NguyenLieu.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\SizeManage.cs" />
+    <Compile Include="Models\StockHistory.cs" />
     <Compile Include="Models\Table.cs" />
     <Compile Include="Models\TableReserve.cs" />
     <Compile Include="Models\Topping.cs" />
@@ -248,6 +259,12 @@
       <DependentUpon>OrderUC.cs</DependentUpon>
     </Compile>
     <Compile Include="PasswordHelper.cs" />
+    <Compile Include="ProductManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductManagementForm.Designer.cs">
+      <DependentUpon>ProductManagementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProductUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -262,6 +279,24 @@
     </Compile>
     <Compile Include="StaffForm.Designer.cs">
       <DependentUpon>StaffForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockHistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockHistoryForm.Designer.cs">
+      <DependentUpon>StockHistoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockInForm.Designer.cs">
+      <DependentUpon>StockInForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockOutForm.Designer.cs">
+      <DependentUpon>StockOutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierUC.cs">
@@ -419,6 +454,9 @@
     <EmbeddedResource Include="EmployeeUC.resx">
       <DependentUpon>EmployeeUC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InputNumberForm.resx">
+      <DependentUpon>InputNumberForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InventoryRecorddUC.resx">
       <DependentUpon>InventoryRecorddUC.cs</DependentUpon>
     </EmbeddedResource>
@@ -434,6 +472,9 @@
     <EmbeddedResource Include="OrderUC.resx">
       <DependentUpon>OrderUC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProductManagementForm.resx">
+      <DependentUpon>ProductManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProductUC.resx">
       <DependentUpon>ProductUC.cs</DependentUpon>
     </EmbeddedResource>
@@ -446,6 +487,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="StockHistoryForm.resx">
+      <DependentUpon>StockHistoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockInForm.resx">
+      <DependentUpon>StockInForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockOutForm.resx">
+      <DependentUpon>StockOutForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SupplierUC.resx">
       <DependentUpon>SupplierUC.cs</DependentUpon>
     </EmbeddedResource>
@@ -535,6 +585,7 @@
     <Content Include="Data\login.png" />
     <Content Include="Models\pexels-bluerhinomedia-2788792.jpg" />
     <Content Include="mongocrypt.dll" />
+    <Content Include="profile-icon-login-head-icon-vector.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" />

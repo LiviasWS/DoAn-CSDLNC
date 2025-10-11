@@ -1,14 +1,10 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DoAN_CSDLNC.Models
 {
-    [BsonIgnoreExtraElements] // tránh vỡ nếu DB dư field
+    [BsonIgnoreExtraElements]
     public class NguyenLieu
     {
         [BsonId]
@@ -23,35 +19,22 @@ namespace DoAN_CSDLNC.Models
         [BsonElement("uomBase")] public string UomBase { get; set; }
         [BsonElement("uomAlt")] public string UomAlt { get; set; }
 
-        // nullable
-        [BsonElement("conversionRate")]
-        [BsonIgnoreIfNull]
-        public int? ConversionRate { get; set; }
-
-        [BsonElement("priceIn")]
-        [BsonIgnoreIfNull]
-        public decimal? PriceIn { get; set; }
-
-        [BsonElement("minStock")]
-        [BsonIgnoreIfNull]
-        public int? MinStock { get; set; }
-
-        [BsonElement("maxStock")]
-        [BsonIgnoreIfNull]
-        public int? MaxStock { get; set; }
+        [BsonElement("conversionRate"), BsonIgnoreIfNull] public int? ConversionRate { get; set; }
+        [BsonElement("priceIn"), BsonIgnoreIfNull] public decimal? PriceIn { get; set; }
+        [BsonElement("minStock"), BsonIgnoreIfNull] public int? MinStock { get; set; }
+        [BsonElement("maxStock"), BsonIgnoreIfNull] public int? MaxStock { get; set; }
 
         [BsonElement("batch")] public string Batch { get; set; }
         [BsonElement("mfgDate")] public DateTime? MfgDate { get; set; }
         [BsonElement("expDate")] public DateTime? ExpDate { get; set; }
 
-        [BsonElement("fefo")]
-        [BsonIgnoreIfNull]
-        public bool? Fefo { get; set; }
-
-        [BsonElement("lossPercent")]
-        [BsonIgnoreIfNull]
-        public double? LossPercent { get; set; }
+        [BsonElement("fefo"), BsonIgnoreIfNull] public bool? Fefo { get; set; }
+        [BsonElement("lossPercent"), BsonIgnoreIfNull] public double? LossPercent { get; set; }
 
         [BsonElement("note")] public string Note { get; set; }
+
+        // >>> MỚI: đường dẫn ảnh minh hoạ
+        [BsonElement("imagePath"), BsonIgnoreIfNull]
+        public string ImagePath { get; set; }
     }
 }
